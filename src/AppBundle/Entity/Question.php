@@ -208,16 +208,6 @@ class Question
     
     /**
      * 
-     * @param int $createdAt
-     * @return $this
-     */
-    public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-    
-    /**
-     * 
      * @param int $updatedAt
      * @return $this
      */

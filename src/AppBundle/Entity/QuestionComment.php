@@ -34,5 +34,10 @@ class QuestionComment extends Comment
         $this->question = $question;
         return $this;
     }
+    
+    public function removeQuestion()
+    {
+        $this->question = null;
+    }
 
 }

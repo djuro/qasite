@@ -15,4 +15,7 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/nbproject/private/
+/nbproject/
+nbproject
+/code-coverage/*
+.settings/org.eclipse.wst.validation.prefs

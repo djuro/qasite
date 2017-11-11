@@ -155,4 +155,9 @@ class Answer
         $comment->removeAnswer($this);
         $this->comments->removeElement($comment);
     }
+    
+    public function removeQuestion()
+    {
+        $this->question = null;
+    }
 }
