@@ -2,8 +2,10 @@
 namespace AppBundle\Entity;
 
 use \Doctrine\ORM\Mapping as ORM;
-use \Ramsey\Uuid\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
+
+use \Ramsey\Uuid\Uuid;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="question")
@@ -52,6 +54,21 @@ class Question
      */
     private $author;
    
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer", name="created_at")
+     */
+    private $createdAt;
+    
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer", name="updated_at")
+     */
+    private $updatedAt;
+    
+    
     public function __construct()
     {
         $this->id = Uuid::uuid4();
@@ -163,6 +180,49 @@ class Question
      */
     public function setAuthor(User $author) {
         $this->author = $author;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return Answer[]
+     */
+    public function getAnswers() {
+        return $this->answers;
+    }
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+    
+    /**
+     * 
+     * @param int $createdAt
+     * @return $this
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param int $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }
