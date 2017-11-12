@@ -35,5 +35,9 @@ class AnswerComment extends Comment
         return $this;
     }
 
+    public function removeAnswer()
+    {
+        $this->answer = null;
+    }
 
 }
