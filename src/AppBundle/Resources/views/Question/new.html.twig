@@ -1,5 +1,16 @@
 {% extends "AppBundle::layout.html.twig" %}
 
 {% block body %}
-    {{form_widget(form)}}
+    <form novalidate action="" method="post">
+  <div class="form-group">
+    <div class="row">
+    <div class="col-md-2">
+        {{form_label(form.title)}}
+    </div>
+    <div class="col-md-4">
+        {{form_widget(form.title,{'attr':{'class':'form-control'}})}}
+    </div>
+      </div>
+    </div>
+    </form>
 {% endblock body %}
