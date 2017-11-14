@@ -4,13 +4,24 @@
     <form novalidate action="" method="post">
   <div class="form-group">
     <div class="row">
-    <div class="col-md-2">
-        {{form_label(form.title)}}
+        <div class="col-md-2">
+            {{form_label(form.title)}}
+        </div>
+        <div class="col-md-4">
+            {{form_widget(form.title,{'attr':{'class':'form-control'}})}}
+            {{form_errors(form.title)}}
+        </div>
     </div>
-    <div class="col-md-4">
-        {{form_widget(form.title,{'attr':{'class':'form-control'}})}}
+        <div>&nbsp;</div>
+    <div class="row">
+        <div class="col-md-2">
+            {{form_label(form.body)}}
+        </div>
+        <div class="col-md-4">
+            {{form_widget(form.body,{'attr':{'class':'form-control'}})}}
+            {{form_errors(form.body)}}
+        </div>
     </div>
-      </div>
     </div>
     </form>
 {% endblock body %}
