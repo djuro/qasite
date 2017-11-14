@@ -3,17 +3,21 @@
 namespace AppBundle\Form\Model;
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Question
 {
     /**
      *
      * @var string
+     * @Assert\NotBlank()
      */
     private $title;
     
     /**
      *
      * @var string
+     * @Assert\NotBlank()
      */
     private $body;
     
