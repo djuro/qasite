@@ -1,12 +1,16 @@
 {% extends "AppBundle::layout.html.twig" %}
 
 {% block body %}
+    <div id="wrapper">
+        
     {% include "AppBundle::header.html.twig" %}
     <section id="featured">
 			<!-- start slider -->
 			<div class="container">
+                            <div class="page-header"><h4>Ask Question</h4></div>
     <form novalidate action="" method="post">
   <div class="form-group">
+      <div>&nbsp;</div>
     <div class="row">
         <div class="col-md-2">
             {{form_label(form.title)}}
@@ -38,4 +42,5 @@
     </form>
     </div>
     </section>
+            </div>
 {% endblock body %}
