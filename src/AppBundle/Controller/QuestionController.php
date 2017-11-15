@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\QuestionType;
 
+use AppBundle\Entity\Question;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +21,14 @@ class QuestionController extends Controller
         
         $form->handleRequest($request);
         if($form->isValid()) {
-            d($form->getData()); exit;
+            $questionService = $this->get('qasite.question_service');
+            $questionRepository = $this->get('qasite.question_repository');
+            $formQuestion = $form->getData();
+            $question = new Question();
+            $questionService->populateQuestion($question, $formQuestion);
+            $questionRepository->persist($question);
+            $questionRepository->emFlush();
+            return $this->redirect($this->generateUrl('welcome'));
         }
         return $this->render("AppBundle:Question:new.html.twig", 
                 array('form'=>$form->createView()));

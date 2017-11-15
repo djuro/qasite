@@ -64,7 +64,7 @@ class Question
     /**
      *
      * @var int
-     * @ORM\Column(type="integer", name="updated_at")
+     * @ORM\Column(type="integer", name="updated_at", nullable=true)
      */
     private $updatedAt;
     
@@ -108,6 +108,7 @@ class Question
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -116,6 +117,7 @@ class Question
     public function setBody($body)
     {
         $this->body = $body;
+        return $this;
     }
 
     /**
