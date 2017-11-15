@@ -24,11 +24,10 @@ class QuestionController extends Controller
             $questionService = $this->get('qasite.question_service');
             $questionRepository = $this->get('qasite.question_repository');
             $formQuestion = $form->getData();
-            $question = new Question();
-            $questionService->populateQuestion($question, $formQuestion);
+            $question = $questionService->transformFormQuestion($formQuestion);
             $questionRepository->persist($question);
             $questionRepository->emFlush();
-            return $this->redirect($this->generateUrl('welcome'));
+            return $this->redirect($this->generateUrl('question_list'));
         }
         return $this->render("AppBundle:Question:new.html.twig", 
                 array('form'=>$form->createView()));

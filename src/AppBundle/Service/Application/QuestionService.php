@@ -6,9 +6,16 @@ use AppBundle\Entity\Question;
 
 class QuestionService
 {
-    public function populateQuestion(Question $question, FormQuestion $formQuestion)
+    /**
+     * 
+     * @param FormQuestion $formQuestion
+     * @return Question
+     */
+    public function transformFormQuestion(FormQuestion $formQuestion):Question
     {
+        $question = new Question();
         $question->setTitle($formQuestion->getTitle())
                 ->setBody($formQuestion->getBody());
+        return $question;
     }
 }
