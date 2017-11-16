@@ -20,6 +20,7 @@ class QuestionController extends Controller
         $form = $this->createForm(QuestionType::class);
         
         $form->handleRequest($request);
+        if($form->isSubmitted()) {
         if($form->isValid()) {
             $questionService = $this->get('qasite.question_service');
             $questionRepository = $this->get('qasite.question_repository');
@@ -28,7 +29,7 @@ class QuestionController extends Controller
             $questionRepository->persist($question);
             $questionRepository->emFlush();
             return $this->redirect($this->generateUrl('question_list'));
-        }
+    }}
         return $this->render("AppBundle:Question:new.html.twig", 
                 array('form'=>$form->createView()));
     }

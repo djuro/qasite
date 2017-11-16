@@ -9,13 +9,14 @@ use PHPUnit\Framework\TestCase;
 
 class QuestionServiceTest extends TestCase
 {
+    
     const TITLE = "Some title ...";
     
     const BODY = "Some body text ...";
     
-   
     
     /**
+     * @param FormQuestion $formQuestion
      * @dataProvider providerForTestTransformFormQuestion
      */
     public function testTransformFormQuestion($formQuestion) {
@@ -26,7 +27,10 @@ class QuestionServiceTest extends TestCase
         $this->assertTrue($question instanceof Question);
     }
     
-    
+    /**
+     * 
+     * @return FormQuestion[]
+     */
     public function providerForTestTransformFormQuestion() {
         $formQuestion = new FormQuestion();
         $formQuestion->setTitle(self::TITLE)
