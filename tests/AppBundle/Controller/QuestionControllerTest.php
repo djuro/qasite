@@ -14,7 +14,7 @@ class QuestionControllerTest extends WebTestCase
         $client = static::createClient();
         $client->followRedirects(true);
         $crawler = $client->request('GET', 'question/new');
-        echo $client->getResponse()->getStatusCode();
+        
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Ask Question")')->count()
@@ -26,10 +26,8 @@ class QuestionControllerTest extends WebTestCase
         
         $formSubmitCrawler = $client->submit($form);
         
-        $this->assertGreaterThan(
-            0,
-            $formSubmitCrawler->filter('html:contains("Questions list")')->count()
-        );
+        $this->assertGreaterThan(0,
+                $formSubmitCrawler->filter('html:contains("Questions list")')->count());
  
     }
 }
