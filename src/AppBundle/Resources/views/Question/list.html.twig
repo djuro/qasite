@@ -1,0 +1,27 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block body %}
+    <div id="wrapper">
+        
+    {% include "AppBundle::header.html.twig" %}
+    <section id="featured">
+			<!-- start slider -->
+    <div class="container">
+        <div class="page-header">
+            <h4>Questions</h4>
+        </div>
+        
+        {% for question in questions %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>{{ question.title }}</h5>
+                </div>
+                <div class="col-md-5">
+                    {{ question.body }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </section>
+            </div>
+{% endblock body %}

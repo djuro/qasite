@@ -39,4 +39,18 @@ class QuestionRepository
     public function emFlush() {
         $this->em->flush();
     }
+    
+    /**
+     * 
+     * @return Question[]
+     */
+    public function findAll()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('Q')
+                ->from('AppBundle:Question', 'Q')
+                ->orderBy('Q.createdAt', 'DESC');
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 }

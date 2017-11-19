@@ -39,6 +39,12 @@ class QuestionController extends Controller
      */
     public function listAction()
     {
-        return $this->render("AppBundle::layout.html.twig");
+        $questionRepository = $this->get('qasite.question_repository');
+        $questions = $questionRepository->findAll();
+        
+        return $this->render("AppBundle:Question:list.html.twig", 
+                array(
+                    'questions' => $questions
+                ));
     }
 }
