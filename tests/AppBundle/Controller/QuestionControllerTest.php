@@ -25,9 +25,23 @@ class QuestionControllerTest extends WebTestCase
         $form['question[body]'] = self::BODY;
         
         $formSubmitCrawler = $client->submit($form);
-        
+        //d($client->getResponse()->getContent());
+        //$formSubmitCrawler->
         $this->assertGreaterThan(0,
-                $formSubmitCrawler->filter('html:contains("Questions list")')->count());
+                $formSubmitCrawler->filter('html:contains("Questions")')->count());
  
+    }
+    
+    public function testListAction()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+        $crawler = $client->request('GET', 'question/list');
+        //d($crawler->filter('html:contains("div")')); exit;
+        //d($client->getResponse()->getContent());
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("Questions")')->count()
+        );
     }
 }
