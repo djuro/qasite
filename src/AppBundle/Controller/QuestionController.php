@@ -47,4 +47,12 @@ class QuestionController extends Controller
                     'questions' => $questions
                 ));
     }
+    
+    /**
+     * @Route("/", name="home")
+     */
+    public function homeAction()
+    {
+        return $this->redirect($this->generateUrl('question_list'));
+    }
 }

@@ -75,4 +75,4 @@ fos_user:
     user_class: AppBundle\Entity\User
     from_email:
         address: "ja@moj.komp"
-        sender_name: "SabanSaulic"
+        sender_name: "Shaban"

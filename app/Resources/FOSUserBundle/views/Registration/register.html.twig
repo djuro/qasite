@@ -1,0 +1,51 @@
+{# empty Twig template #}
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+<form class="fos_user_registration_register well" method="POST" action="{{ path('fos_user_registration_register') }}">
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <label class="required" for="fos_user_registration_form_username">Username:</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" pattern=".{2,}" maxlength="255" required="required" name="fos_user_registration_form[username]" id="fos_user_registration_form_username">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <label class="required" for="fos_user_registration_form_email">Email:</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" required="required" name="fos_user_registration_form[email]" id="fos_user_registration_form_email">
+        </div>  
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <label class="required" for="fos_user_registration_form_plainPassword_first">Password:</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" required="required" name="fos_user_registration_form[plainPassword][first]" id="fos_user_registration_form_plainPassword_first">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <label class="required" for="fos_user_registration_form_plainPassword_second">Repeat password:</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" required="required" name="fos_user_registration_form[plainPassword][second]" id="fos_user_registration_form_plainPassword_second">
+        </div>    
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <button class="btn btn-primary" type="submit">{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</button>
+        </div>
+        <div class="col-sm-4">&nbsp;
+        </div>
+    </div>
+        {{form_widget(form._token)}}
+</form>
+    
+{% endblock fos_user_content %}
+
