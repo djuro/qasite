@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Entity;
 
-use \Doctrine\ORM\Mapping as ORM;
-use \Ramsey\Uuid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
