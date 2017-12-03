@@ -12,6 +12,7 @@
 	<link href="{{asset('bundles/app/css/jcarousel.css')}}" rel="stylesheet" />
 	<link href="{{asset('bundles/app/css/flexslider.css')}}" rel="stylesheet" />
 	<link href="{{asset('bundles/app/css/style.css')}}" rel="stylesheet" />
+        <link href="{{asset('bundles/app/css/qasite_style.css')}}" rel="stylesheet" />
 
 	<!-- Theme skin -->
 	<link href="{{asset('bundles/app/skins/default.css')}}" rel="stylesheet" />
@@ -332,6 +333,9 @@
 	<script src="{{asset('bundles/app/js/jquery.flexslider.js')}}"></script>
 	<script src="{{asset('bundles/app/js/animate.js')}}"></script>
 	<script src="{{asset('bundles/app/js/custom.js')}}"></script>
+        
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 {% endblock javascripts %}
 </body>
 

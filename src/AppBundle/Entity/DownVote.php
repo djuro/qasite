@@ -3,14 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="vote_down")
+ * @ORM\Table(name="down_vote")
  */
-class VoteDown
+class DownVote
 {
     /**
      *
@@ -27,4 +26,15 @@ class VoteDown
      * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
+    
+    /**
+     * 
+     * @param User $user
+     * @param Question $question
+     */
+    public function __construct(User $user, Question $question)
+    {
+        $this->user = $user;
+        $this->question = $question;
+    }
 }

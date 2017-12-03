@@ -19,10 +19,14 @@
                 <div class="col-md-1">
                     <table>
                         <tr>
-                            <td><a href="#">up</a></td>
+                            <td><a href="#" class="upvote" data-question="{{question.id}}">up</a></td>
                         </tr>
                         <tr>
-                            <td><strong>0</strong></td>
+                            <td>
+                                <span class="total-votes" id="votes-{{question.id}}">
+                                {{question.score}}
+                                </span>
+                            </td>
                         </tr>
                         <tr>
                             <td><a href="#">down</a></td>
@@ -38,3 +42,8 @@
     </section>
             </div>
 {% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('bundles/app/js/upvote.js')}}"></script>
+{% endblock javascripts %}

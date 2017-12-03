@@ -11,10 +11,19 @@
     -->
     <services>
         
-        <service id="qasite.question_service" class="AppBundle\Service\Application\QuestionService" />
+        <service id="qasite.question_service" class="AppBundle\Service\Application\QuestionService">
+            <argument type="service" id="qasite.vote_repository" />
+        </service>
         <service id="qasite.question_repository" class="AppBundle\Service\Repository\QuestionRepository">
             <argument type="service" id="doctrine" />
             <call method="setEntityManager" />
+        </service>
+        <service id="qasite.vote_repository" class="AppBundle\Service\Repository\VoteRepository">
+            <argument type="service" id="doctrine" />
+            <call method="setEntityManager" />
+        </service>
+        <service id="qasite.question_view_factory" class="AppBundle\Service\Application\QuestionViewFactory">
+            <argument type="service" id="qasite.question_service" />
         </service>
     </services>
 </container>

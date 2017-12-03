@@ -41,10 +41,11 @@ class QuestionController extends Controller
     {
         $questionRepository = $this->get('qasite.question_repository');
         $questions = $questionRepository->findAll();
-        
+        $viewFactory = $this->get('qasite.question_view_factory');
+        $questionViews = $viewFactory->createFrom($questions);
         return $this->render("AppBundle:Question:list.html.twig", 
                 array(
-                    'questions' => $questions
+                    'questions' => $questionViews
                 ));
     }
     
