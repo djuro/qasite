@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Entity;
 use AppBundle\Entity\Question;
 use AppBundle\Entity\QuestionComment;
 use AppBundle\Entity\Answer;
+use AppBundle\Entity\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -101,4 +102,30 @@ class QuestionTest extends TestCase
         $this->assertTrue($updatedAt === $this->question->getUpdatedAt());
     }
     
+    public function testSetGetAuthor()
+    {
+        $author = new User();
+        $this->question->setAuthor($author);
+        $this->assertEquals($author, $this->question->getAuthor());
+    }
+    
+    public function testGetScore()
+    {
+        $score = $this->question->getScore();
+        $this->assertTrue($score === 0);
+    }
+    
+    public function testUpVote()
+    {
+        $score = $this->question->getScore();
+        $this->question->upVote();
+        $this->assertTrue($this->question->getScore() - $score == 1);
+    }
+    
+    public function testDownVote()
+    {
+        $score = $this->question->getScore();
+        $this->question->downVote();
+        $this->assertTrue($score - $this->question->getScore() == 1);
+    }
 }

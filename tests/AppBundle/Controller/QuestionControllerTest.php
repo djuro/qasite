@@ -3,6 +3,8 @@
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\BrowserKit\Cookie;
 
 class QuestionControllerTest extends WebTestCase
 {
@@ -10,11 +12,18 @@ class QuestionControllerTest extends WebTestCase
     
     const BODY = "Some test body text ...";
     
+    private $client;
+
+    public function setUp()
+    {
+        $this->client = static::createClient();
+    }
+    
     public function testNewAction() {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', 'question/new');
-        
+        $this->logIn();
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', 'question/new');
+        //d($this->client->getResponse()->getContent());
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Ask Question")')->count()
@@ -24,9 +33,7 @@ class QuestionControllerTest extends WebTestCase
         $form['question[title]'] = self::TITLE;
         $form['question[body]'] = self::BODY;
         
-        $formSubmitCrawler = $client->submit($form);
-        //d($client->getResponse()->getContent());
-        //$formSubmitCrawler->
+        $formSubmitCrawler = $this->client->submit($form);
         $this->assertGreaterThan(0,
                 $formSubmitCrawler->filter('html:contains("Questions")')->count());
  
@@ -34,14 +41,27 @@ class QuestionControllerTest extends WebTestCase
     
     public function testListAction()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', 'question/list');
-        //d($crawler->filter('html:contains("div")')); exit;
-        //d($client->getResponse()->getContent());
+        $this->logIn();
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', 'question/list');
+
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Questions")')->count()
         );
     }
+    
+    private function logIn()
+    {
+        $session = $this->client->getContainer()->get('session');
+        $firewallContext = 'main';
+
+        $token = new UsernamePasswordToken('admin', null, $firewallContext, array('ROLE_ADMIN'));
+        $session->set('_security_'.$firewallContext, serialize($token));
+        $session->save();
+
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $this->client->getCookieJar()->set($cookie);
+    }
+
 }

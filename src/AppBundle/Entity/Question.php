@@ -82,6 +82,7 @@ class Question
         $this->createdAt = time();
         $this->comments = new ArrayCollection();
         $this->answers = new ArrayCollection();
+        $this->score = 0;
     }
     
     /**

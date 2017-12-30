@@ -20,7 +20,9 @@ class QuestionServiceTest extends TestCase
      * @dataProvider providerForTestTransformFormQuestion
      */
     public function testTransformFormQuestion($formQuestion) {
+        
         $questionService = $this->getMockBuilder('AppBundle\Service\Application\QuestionService')
+                                ->disableOriginalConstructor()
                                 ->setMethods(null)
                                 ->getMock();
         $question = $questionService->transformFormQuestion($formQuestion);
