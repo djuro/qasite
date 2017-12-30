@@ -68,6 +68,13 @@ class Question
      */
     private $updatedAt;
     
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $score;
+    
     
     public function __construct()
     {
@@ -216,6 +223,24 @@ class Question
     public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getScore() {
+        return $this->score;
+    }
+    
+    public function upVote()
+    {
+        $this->score +=1;
+    }
+    
+    public function downVote()
+    {
+        $this->score -=1;
     }
 }
 

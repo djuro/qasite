@@ -2,9 +2,11 @@
 namespace AppBundle\Service\Application;
 
 use AppBundle\Service\Repository\VoteRepository;
-
+use AppBundle\Entity\UpVote;
+use AppBundle\Entity\DownVote;
 use AppBundle\Form\Model\Question as FormQuestion;
 use AppBundle\Entity\Question;
+use AppBundle\Entity\User;
 
 class QuestionService
 {
@@ -48,5 +50,39 @@ class QuestionService
         $downVotes = $this->voteRepository->findDownvotesFor($question);
         $countDownVotes = count($downVotes);
         return (int) $countUpvotes - $countDownVotes;
+    }
+    
+    /**
+     * 
+     * @param Question $question
+     * @param User $user
+     */
+    public function recordUpvote(Question $question, User $user)
+    {
+        $upVote = new UpVote($user, $question);
+        $question->upVote();
+        $this->voteRepository->storeUpVote($upVote);
+        $downVoted = $this->voteRepository->findIfDownvotedBy($question, $user);
+        if(TRUE===$downVoted)
+            $this->voteRepository->removeDownvoteFor($question, $user);
+        
+        $this->voteRepository->emFlush();
+    }
+    
+    /**
+     * 
+     * @param Question $question
+     * @param User $user
+     */
+    public function recordDownvote(Question $question, User $user)
+    {
+        $upVote = new DownVote($user, $question);
+        $this->voteRepository->storeDownVote($upVote);
+        $question->downVote();
+        $upVoted = $this->voteRepository->findIfUpvotedBy($question, $user);
+        if(TRUE===$upVoted)
+            $this->voteRepository->removeUpvoteFor($question, $user);
+        
+        $this->voteRepository->emFlush();
     }
 }

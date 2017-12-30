@@ -29,7 +29,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#">down</a></td>
+                            <td><a href="#" class="downvote" data-question="{{question.id}}">down</a></td>
                         </tr>
                     </table>
                 </div>
@@ -46,4 +46,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{asset('bundles/app/js/upvote.js')}}"></script>
+    <script src="{{asset('bundles/app/js/downvote.js')}}"></script>
+
 {% endblock javascripts %}

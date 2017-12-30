@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Question;
 use AppBundle\Entity\User;
-use AppBundle\Entity\UpVote;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +15,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class QuestionVoteController extends Controller
 {
+    
+    const Q_UPSCORE_LOCKED = "User already up-voted the question.";
+    
+    const Q_DOWNSCORE_LOCKED = "User already down-voted the question.";
+    
     /**
      * @Route("/upvote/question/{question}", options={"expose"=true}, name="upvote_question")
      * @ParamConverter("question", options={"mapping": {"question": "id"}})
@@ -22,17 +27,50 @@ class QuestionVoteController extends Controller
     public function upVoteAction(Request $request, Question $question)
     {
         if($request->isXmlHttpRequest()) {
-            $upVote = new UpVote($this->getUser(), $question);
             $voteRepository = $this->get('qasite.vote_repository');
             $questionService = $this->get('qasite.question_service');
-            $voteRepository->storeUpVote($upVote);
-            $voteRepository->emFlush();
-            $totalVoteScore = $questionService->calculateVotesFor($question);
+            $user = $this->getUser();
+            $upvoted = $voteRepository->findIfUpvotedBy($question, $user);
             $response = new Response();
-            $response->setStatusCode(200)
-                    ->setContent($totalVoteScore);
-            
-            return $response;
+            if(FALSE === $upvoted) {
+                $questionService->recordUpvote($question, $user);
+                $totalVoteScore = $questionService->calculateVotesFor($question);
+                $response->setStatusCode(200)
+                        ->setContent($totalVoteScore);
+                return $response;
+            } else {
+                $response->setStatusCode(423)
+                        ->setContent(self::Q_UPSCORE_LOCKED);
+                return $response;
+            }
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+    
+    /**
+     * @Route("/downvote/question/{question}", options={"expose"=true}, name="downvote_question")
+     * @ParamConverter("question", options={"mapping": {"question": "id"}})
+     */
+    public function downVoteAction(Request $request, Question $question)
+    {
+        if($request->isXmlHttpRequest()) {
+            $voteRepository = $this->get('qasite.vote_repository');
+            $questionService = $this->get('qasite.question_service');
+            $user = $this->getUser();
+            $downVoted = $voteRepository->findIfDownvotedBy($question, $user);
+            $response = new Response();
+            if(FALSE === $downVoted) {
+                $questionService->recordDownvote($question, $user);
+                $totalVoteScore = $questionService->calculateVotesFor($question);
+                $response->setStatusCode(200)
+                        ->setContent($totalVoteScore);
+                return $response;
+            } else {
+                $response->setStatusCode(423)
+                        ->setContent(self::Q_DOWNSCORE_LOCKED);
+                return $response;
+            }
         } else {
             throw new NotFoundHttpException();
         }

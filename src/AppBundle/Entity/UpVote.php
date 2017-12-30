@@ -46,7 +46,4 @@ class UpVote
         return $this->user;
     }
 
-
-
-
 }
