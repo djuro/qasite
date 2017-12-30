@@ -34,9 +34,8 @@ class QuestionVoteController extends Controller
             $response = new Response();
             if(FALSE === $upvoted) {
                 $questionService->recordUpvote($question, $user);
-                $totalVoteScore = $questionService->calculateVotesFor($question);
                 $response->setStatusCode(200)
-                        ->setContent($totalVoteScore);
+                        ->setContent($question->getScore());
                 return $response;
             } else {
                 $response->setStatusCode(423)
@@ -62,9 +61,8 @@ class QuestionVoteController extends Controller
             $response = new Response();
             if(FALSE === $downVoted) {
                 $questionService->recordDownvote($question, $user);
-                $totalVoteScore = $questionService->calculateVotesFor($question);
                 $response->setStatusCode(200)
-                        ->setContent($totalVoteScore);
+                        ->setContent($question->getScore());
                 return $response;
             } else {
                 $response->setStatusCode(423)

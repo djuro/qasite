@@ -41,20 +41,6 @@ class QuestionService
     /**
      * 
      * @param Question $question
-     * @return int
-     */
-    public function calculateVotesFor(Question $question)
-    {
-        $upvotes = $this->voteRepository->findUpvotesFor($question);
-        $countUpvotes = count($upvotes);
-        $downVotes = $this->voteRepository->findDownvotesFor($question);
-        $countDownVotes = count($downVotes);
-        return (int) $countUpvotes - $countDownVotes;
-    }
-    
-    /**
-     * 
-     * @param Question $question
      * @param User $user
      */
     public function recordUpvote(Question $question, User $user)
@@ -76,8 +62,8 @@ class QuestionService
      */
     public function recordDownvote(Question $question, User $user)
     {
-        $upVote = new DownVote($user, $question);
-        $this->voteRepository->storeDownVote($upVote);
+        $downVote = new DownVote($user, $question);
+        $this->voteRepository->storeDownVote($downVote);
         $question->downVote();
         $upVoted = $this->voteRepository->findIfUpvotedBy($question, $user);
         if(TRUE===$upVoted)

@@ -33,8 +33,8 @@ class QuestionViewFactory
         foreach($questions as $question)
         {
             $questionView = new QuestionView($question->getId(), $question->getTitle(), $question->getBody());
-            $score = $this->questionService->calculateVotesFor($question);
-            $questionView->setScore($score);
+            //$score = $this->questionService->calculateVotesFor($question);
+            $questionView->setScore($question->getScore());
             $views[] = $questionView;
         }
         return $views;
