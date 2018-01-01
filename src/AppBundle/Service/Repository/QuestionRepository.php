@@ -53,4 +53,15 @@ class QuestionRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+    
+    public function find($id)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('Q')
+                ->from('AppBundle:Question', 'Q')
+                ->where('Q.id=:id')
+                ->setParameter('id', $id);
+        $query = $qb->getQuery();
+        return $query->getSingleResult();
+    }
 }

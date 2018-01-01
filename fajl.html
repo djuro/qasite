@@ -1,0 +1,39 @@
+
+Warning: Cannot declare class PHPUnit_Util_Blacklist, because the name is already in use in /var/www/html/qasite/vendor/symfony/phpunit-bridge/Blacklist.php on line 51
+
+Call Stack:
+    0.0006     499784   1. {main}() /usr/local/bin/phpunit:0
+    0.0593    9228616   2. PHPUnit_TextUI_Command::main() /usr/local/bin/phpunit:595
+    0.0593    9228728   3. PHPUnit_TextUI_Command->run() phar:///usr/local/bin/phpunit/phpunit/TextUI/Command.php:116
+    0.0593    9228728   4. PHPUnit_TextUI_Command->handleArguments() phar:///usr/local/bin/phpunit/phpunit/TextUI/Command.php:127
+    0.0596    9241984   5. PHPUnit_TextUI_Command->handleBootstrap() phar:///usr/local/bin/phpunit/phpunit/TextUI/Command.php:739
+    0.0596    9241984   6. PHPUnit_Util_Fileloader::checkAndLoad() phar:///usr/local/bin/phpunit/phpunit/TextUI/Command.php:914
+    0.0596    9242064   7. PHPUnit_Util_Fileloader::load() phar:///usr/local/bin/phpunit/phpunit/Util/Fileloader.php:36
+    0.0596    9243864   8. include_once('/var/www/html/qasite/vendor/autoload.php') phar:///usr/local/bin/phpunit/phpunit/Util/Fileloader.php:52
+    0.0597    9257992   9. ComposerAutoloaderInit17d6d46e9fd99827ecb075288078cbd4::getLoader() /var/www/html/qasite/vendor/autoload.php:7
+    0.0603    9368760  10. composerRequire17d6d46e9fd99827ecb075288078cbd4() /var/www/html/qasite/vendor/composer/autoload_real.php:56
+    0.0604    9374880  11. require('/var/www/html/qasite/vendor/symfony/phpunit-bridge/bootstrap.php') /var/www/html/qasite/vendor/composer/autoload_real.php:66
+    0.0605    9381808  12. require_once('/var/www/html/qasite/vendor/symfony/phpunit-bridge/Blacklist.php') /var/www/html/qasite/vendor/symfony/phpunit-bridge/bootstrap.php:17
+    0.0606    9382184  13. class_alias() /var/www/html/qasite/vendor/symfony/phpunit-bridge/Blacklist.php:51
+
+PHPUnit 5.7.25 by Sebastian Bergmann and contributors.
+
+..
+[36m┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐[0m
+[36m│ $this->client->getResponse()->getContent()                                                          │[0m
+[36m└─────────────────────────────────────────────────────────────────────────────────────────────────────┘[0m
+[35;1mstring[0m (332) [32m"<!DOCTYPE html>[0m
+[32m<html>[0m
+[32m    <head>[0m
+[32m        <meta charset="UTF-8" />[0m
+[32m        <meta http-equiv="refresh" content="0;url=http://localhost/login" />[0m
+[32m[0m
+[32m        <title>Redirecting to http://localhost/login</title>[0m
+[32m    </head>[0m
+[32m    <body>[0m
+[32m        Redirecting to <a href="http://localhost/login">http://localhost/login</a>.[0m
+[32m    </body>[0m
+[32m</html>"[0m
+[36m═══════════════════════════════════════════════════════════════════════════════════════════════════════[0m
+[36mCalled from <ROOT>/tests/AppBundle/Controller/QuestionVoteControllerTest.php:67 [Tests\AppBundle\Controller\QuestionVoteControllerTest->testUpVoteAction()][0m
+[36m[0m

@@ -43,7 +43,7 @@ class QuestionControllerTest extends WebTestCase
     {
         $this->logIn();
         $this->client->followRedirects(true);
-        $crawler = $this->client->request('GET', 'question/list');
+        $crawler = $this->client->request('GET', 'questions');
 
         $this->assertGreaterThan(
             0,

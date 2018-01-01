@@ -9,6 +9,8 @@ use AppBundle\Entity\Question;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 class QuestionController extends Controller
 {
@@ -35,7 +37,7 @@ class QuestionController extends Controller
     }
     
     /**
-     * @Route("/question/list", name="question_list")
+     * @Route("/questions", name="questions")
      */
     public function listAction()
     {
@@ -55,5 +57,16 @@ class QuestionController extends Controller
     public function homeAction()
     {
         return $this->redirect($this->generateUrl('question_list'));
+    }
+    
+    /**
+     * @Route("/question/{question}/edit", name="question_edit")
+     * @ParamConverter("question", options={"mapping": {"question": "id"}})
+     */
+    public function editAction(Request $request, Question $question)
+    {
+        //d(1);
+        //d($question); 
+        //exit;
     }
 }

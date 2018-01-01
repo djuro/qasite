@@ -30,3 +30,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/question/, role: ROLE_ADMIN }
+        - { path: ^/upvote[0-9a-zA-Z/-]+, roles: [ ROLE_ADMIN ] }
+        - { path: ^/downvote[0-9a-zA-Z/-]+, roles: [ ROLE_ADMIN ] }

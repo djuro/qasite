@@ -57,6 +57,7 @@ class QuestionVoteController extends Controller
             $voteRepository = $this->get('qasite.vote_repository');
             $questionService = $this->get('qasite.question_service');
             $user = $this->getUser();
+            
             $downVoted = $voteRepository->findIfDownvotedBy($question, $user);
             $response = new Response();
             if(FALSE === $downVoted) {
