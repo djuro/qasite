@@ -109,8 +109,6 @@ class VoteRepository {
         if(is_array($result) && count($result) > 0) {
             if($result[0] instanceof UpVote) 
                 return TRUE;
-            else 
-                return FALSE;
         }
         return FALSE;
     }
@@ -135,8 +133,6 @@ class VoteRepository {
         if(is_array($result) && count($result) > 0) {
             if($result[0] instanceof DownVote) 
                 return TRUE;
-            else 
-                return FALSE;
         }
         return FALSE;
     }
