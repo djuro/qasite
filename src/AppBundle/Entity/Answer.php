@@ -43,6 +43,8 @@ class Answer
     /**
      *
      * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
     private $createdBy;
     
@@ -55,8 +57,10 @@ class Answer
     private $question;
     
     
-    public function __construct() {
+    public function __construct(Question $question, User $createdBy) {
         $this->id = Uuid::uuid4();
+        $this->question = $question;
+        $this->createdBy = $createdBy;
         $this->createdAt = time();
         $this->comments = new ArrayCollection();
     }
@@ -118,26 +122,6 @@ class Answer
 
     /**
      * 
-     * @param User $createdBy
-     * @return $this
-     */
-    public function setCreatedBy(User $createdBy) {
-        $this->createdBy = $createdBy;
-        return $this;
-    }
-
-    /**
-     * 
-     * @param Question $question
-     * @return $this
-     */
-    public function setQuestion(Question $question) {
-        $this->question = $question;
-        return $this;
-    }
-
-    /**
-     * 
      * @param AnswerComment $comment
      */
     public function addComment(AnswerComment $comment)
@@ -159,5 +143,15 @@ class Answer
     public function removeQuestion()
     {
         $this->question = null;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getAuthorLabel() {
+        $label = "%s %s";
+        return sprintf($label, $this->createdBy->getName(),
+                $this->createdBy->getSurname());
     }
 }

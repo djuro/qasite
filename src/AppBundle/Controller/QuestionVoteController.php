@@ -27,6 +27,7 @@ class QuestionVoteController extends Controller
     public function upVoteAction(Request $request, Question $question)
     {
         if($request->isXmlHttpRequest()) {
+            
             $voteRepository = $this->get('qasite.vote_repository');
             $questionService = $this->get('qasite.question_service');
             $user = $this->getUser();

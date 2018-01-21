@@ -3,8 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\QuestionType;
-
+use AppBundle\Entity\User;
 use AppBundle\Entity\Question;
+use AppBundle\Form\Type\AnswerType;
+use AppBundle\Entity\Answer;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,14 +42,15 @@ class QuestionController extends Controller
      * @Route("/questions", name="questions")
      */
     public function listAction()
-    {
+    {   
         $questionRepository = $this->get('qasite.question_repository');
         $questions = $questionRepository->findAll();
         $viewFactory = $this->get('qasite.question_view_factory');
         $questionViews = $viewFactory->createFrom($questions);
         return $this->render("AppBundle:Question:list.html.twig", 
                 array(
-                    'questions' => $questionViews
+                    'questions' => $questionViews,
+                    'links_active' => $this->resolvePermission()
                 ));
     }
     
@@ -56,7 +59,33 @@ class QuestionController extends Controller
      */
     public function homeAction()
     {
-        return $this->redirect($this->generateUrl('question_list'));
+        return $this->redirect($this->generateUrl('questions'));
+    }
+    
+    /**
+     * @Route("/question/{question}/view", name="question_view")
+     * @ParamConverter("question", options={"mapping": {"question": "id"}})
+     */
+    public function questionViewAction(Request $request, Question $question)
+    {
+        $form = $this->createForm(AnswerType::class);
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $answerRepository = $this->get('qasite.answer_repository');
+            $answerText = $form->getData()['answer'];
+            $answer = new Answer($question, $this->getUser());
+            $answer->setBody($answerText);
+            $answerRepository->persist($answer);
+            $answerRepository->flush();
+            return $this->redirect($this->generateUrl('questions'));
+        }
+        return $this->render("AppBundle:Question:view.html.twig", 
+                array(
+                    'question' => $question,
+                    'form' => $form->createView(),
+                    'display_form' => $this->resolvePermission(),
+                    'answers' => $question->getAnswers()->toArray()
+                ));
     }
     
     /**
@@ -68,5 +97,12 @@ class QuestionController extends Controller
         //d(1);
         //d($question); 
         //exit;
+    }
+    
+    private function resolvePermission() {
+        if($this->getUser() instanceof User)
+            return TRUE;
+        else 
+            return FALSE;
     }
 }

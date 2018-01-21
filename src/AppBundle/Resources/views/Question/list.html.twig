@@ -14,12 +14,18 @@
         {% for question in questions %}
             <div class="row">
                 <div class="col-md-12">
-                    <h5>{{ question.title }}</h5>
+                    <h5><a href="{{path('question_view',{'question':question.id})}}">{{ question.title }}</a></h5>
                 </div>
                 <div class="col-md-1">
                     <table>
                         <tr>
-                            <td><a href="#" class="upvote" data-question="{{question.id}}">up</a></td>
+                            <td>
+                                {% if links_active == true %}
+                                    <a href="#" class="upvote" data-question="{{question.id}}">up</a>
+                                {% else %}
+                                    up
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -29,7 +35,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#" class="downvote" data-question="{{question.id}}">down</a></td>
+                            <td>
+                               {% if links_active == true %}
+                                    <a href="#" class="downvote" data-question="{{question.id}}">down</a>
+                               {% else %}
+                                   down
+                               {% endif %}
+                            </td>
                         </tr>
                     </table>
                 </div>

@@ -19,10 +19,49 @@ class User extends BaseUser
      */
     protected $id;
     
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $name;
+    
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $surname;
+    
+    
     public function __construct()
     {
         parent::__construct();
         $this->id = Uuid::uuid4();
     }
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getSurname() {
+        return $this->surname;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setSurname($surname) {
+        $this->surname = $surname;
+        return $this;
+    }
+
+
     
 }
