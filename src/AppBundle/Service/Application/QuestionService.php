@@ -26,13 +26,13 @@ class QuestionService
     }
     
     /**
-     * 
+     * @param Question $question
      * @param FormQuestion $formQuestion
      * @return Question
      */
-    public function transformFormQuestion(FormQuestion $formQuestion):Question
+    public function transformFormQuestion(Question $question, FormQuestion $formQuestion)
     {
-        $question = new Question();
+        //$question = new Question();
         $question->setTitle($formQuestion->getTitle())
                 ->setBody($formQuestion->getBody());
         return $question;
@@ -70,5 +70,17 @@ class QuestionService
             $this->voteRepository->removeUpvoteFor($question, $user);
         
         $this->voteRepository->emFlush();
+    }
+    
+    /**
+     * 
+     * @param Question $question
+     * @param FormQuestion $formQuestion
+     */
+    public function transformDomainQuestion(Question $question, FormQuestion $formQuestion)
+    {
+        $formQuestion->setBody($question->getBody())
+                ->setTitle($question->getTitle());
+        return $formQuestion;
     }
 }

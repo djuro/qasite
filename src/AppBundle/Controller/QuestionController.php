@@ -7,6 +7,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Question;
 use AppBundle\Form\Type\AnswerType;
 use AppBundle\Entity\Answer;
+use AppBundle\Form\Model\Question as FormQuestion;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,10 +27,11 @@ class QuestionController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted()) {
         if($form->isValid()) {
+            $question = new Question();
             $questionService = $this->get('qasite.question_service');
             $questionRepository = $this->get('qasite.question_repository');
             $formQuestion = $form->getData();
-            $question = $questionService->transformFormQuestion($formQuestion);
+            $question = $questionService->transformFormQuestion($question, $formQuestion);
             $questionRepository->persist($question);
             $questionRepository->emFlush();
             return $this->redirect($this->generateUrl('question_list'));
@@ -40,6 +42,7 @@ class QuestionController extends Controller
     
     /**
      * @Route("/questions", name="questions")
+     * @Route("/question/list", name="question_list")
      */
     public function listAction()
     {   
@@ -94,9 +97,25 @@ class QuestionController extends Controller
      */
     public function editAction(Request $request, Question $question)
     {
-        //d(1);
-        //d($question); 
-        //exit;
+        $questionService = $this->get('qasite.question_service');
+        $formQuestion = new FormQuestion;
+        $questionService->transformDomainQuestion($question, $formQuestion);
+        $form = $this->createForm(QuestionType::class, $formQuestion);
+        
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $questionRepository = $this->get('qasite.question_repository');
+            $questionService->transformFormQuestion($question, $formQuestion);
+            $questionRepository->emFlush();
+            return $this->redirect($this->generateUrl('question_view', 
+                    array('question'=>$question->getId()
+                    )));
+        }
+        return $this->render("AppBundle:Question:edit.html.twig",
+                array(
+                    'form'=>$form->createView()
+                    )
+                );
     }
     
     private function resolvePermission() {
