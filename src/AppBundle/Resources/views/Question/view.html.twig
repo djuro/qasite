@@ -23,14 +23,44 @@
                 {{question.createdAt|date("d.m.'y. G:i")}}h
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{path('question_engage',{'question':question.id})}}">add a comment</a>
+        {% if authenticated == false %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{path('question_engage',{'question':question.id})}}">add a comment</a>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{path('question_engage',{'question':question.id})}}" class="btn btn-default">Your Answer</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" id="comment-form-control">add a comment</a>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-12">
-                <a href="{{path('question_engage',{'question':question.id})}}" class="btn btn-default">Your Answer</a>
+                <form novalidate method="post" action="{{path('question_comment_new',{'question':question.id})}}">
+                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{form_label(comment_form.comment)}}
+                        </div>
+                        <div class="col-md-12">
+                            {{form_widget(comment_form.comment,{'attr':{'class':'form-control'}})}}
+                            {{form_widget(comment_form._token)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-default">Post Comment</button>
+                        </div>
+                    </div>
+                    </div>
+                </form>
             </div>
         </div>
         {% if answers|length() > 0%}
@@ -60,21 +90,21 @@
             </div>
         {% endfor %}
         {% if authenticated == true %}
-        <form novalidate action="" method="post">
+        <form novalidate action="" method="post" id="answer-form">
             <div class="form-group">
                 <div>&nbsp;</div>
 
                 <div>&nbsp;</div>
                 <div class="row">
                     <div class="col-md-2">
-                        {{form_label(form.answer)}}
+                        {{form_label(answer_form.answer)}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        {{form_widget(form.answer,{'attr':{'class':'form-control'}})}}
-                        {{form_errors(form.answer)}}
-                        {{form_widget(form._token)}}
+                        {{form_widget(answer_form.answer,{'attr':{'class':'form-control'}})}}
+                        {{form_errors(answer_form.answer)}}
+                        {{form_widget(answer_form._token)}}
                     </div>
 
                 </div>

@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\QuestionType;
+use AppBundle\Form\Type\CommentType;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Question;
 use AppBundle\Form\Type\AnswerType;
 use AppBundle\Entity\Answer;
 use AppBundle\Form\Model\Question as FormQuestion;
+use AppBundle\Entity\Comment;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -72,24 +74,48 @@ class QuestionController extends Controller
      */
     public function questionViewAction(Request $request, Question $question)
     {
-        $form = $this->createForm(AnswerType::class);
-        $form->handleRequest($request);
-        if($form->isValid()) {
-            $answerRepository = $this->get('qasite.answer_repository');
-            $answerText = $form->getData()['answer'];
-            $answer = new Answer($question, $this->getUser());
-            $answer->setBody($answerText);
-            $answerRepository->persist($answer);
-            $answerRepository->flush();
+        $answerForm = $this->createForm(AnswerType::class);
+        $commentForm = $this->createForm(CommentType::class);
+        $answerForm->handleRequest($request);
+        if($answerForm->isValid()) {
+            $answerText = $answerForm->getData()['answer'];
+            $this->processAnswerResponse($question, $answerText);
             return $this->redirect($this->generateUrl('questions'));
         }
         return $this->render("AppBundle:Question:view.html.twig", 
                 array(
                     'question' => $question,
-                    'form' => $form->createView(),
+                    'answer_form' => $answerForm->createView(),
+                    'comment_form' => $commentForm->createView(),
                     'authenticated' => $this->resolvePermission(),
                     'answers' => $question->getAnswers()->toArray()
                 ));
+    }
+    
+    /**
+     * 
+     * @param Question $question
+     * @param string $answerText
+     */
+    private function processAnswerResponse(Question $question, $answerText) {
+        $answerRepository = $this->get('qasite.answer_repository');
+        $answer = new Answer($question, $this->getUser());
+        $answer->setBody($answerText);
+        $answerRepository->persist($answer);
+        $answerRepository->flush();
+    }
+    
+    /**
+     * @Route("/question/{question}/comment/new", name="question_comment_new")
+     * @ParamConverter("question", options={"mapping": {"question": "id"}})
+     */
+    public function storeCommentAction(Request $request, Question $question)
+    {
+        $commentForm = $this->createForm(CommentType::class);
+        $commentForm->handleRequest($request);
+        if($commentForm->isValid()) {
+            d($commentForm->getData()); exit;
+        }
     }
     
     /**
