@@ -66,6 +66,7 @@ class QuestionController extends Controller
     }
     
     /**
+     * @Route("/question/{question}/engage", name="question_engage")
      * @Route("/question/{question}/view", name="question_view")
      * @ParamConverter("question", options={"mapping": {"question": "id"}})
      */
@@ -86,7 +87,7 @@ class QuestionController extends Controller
                 array(
                     'question' => $question,
                     'form' => $form->createView(),
-                    'display_form' => $this->resolvePermission(),
+                    'authenticated' => $this->resolvePermission(),
                     'answers' => $question->getAnswers()->toArray()
                 ));
     }

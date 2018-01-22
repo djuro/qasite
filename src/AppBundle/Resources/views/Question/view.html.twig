@@ -15,6 +15,24 @@
                 </p>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                Asked by: <a href="#">{{question.authorLabel}}</a>
+            </div>
+            <div class="col-md-12">
+                {{question.createdAt|date("d.m.'y. G:i")}}h
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{path('question_engage',{'question':question.id})}}">add a comment</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{path('question_engage',{'question':question.id})}}" class="btn btn-default">Your Answer</a>
+            </div>
+        </div>
         {% if answers|length() > 0%}
             <div class="row">
                 <div class="col-md-12">
@@ -41,7 +59,7 @@
                 </div>
             </div>
         {% endfor %}
-        {% if display_form == true %}
+        {% if authenticated == true %}
         <form novalidate action="" method="post">
             <div class="form-group">
                 <div>&nbsp;</div>

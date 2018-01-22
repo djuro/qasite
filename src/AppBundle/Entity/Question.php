@@ -51,6 +51,8 @@ class Question
     /**
      *
      * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="author", referencedColumnName="id")
      */
     private $author;
    
@@ -242,6 +244,16 @@ class Question
     public function downVote()
     {
         $this->score -=1;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getAuthorLabel()
+    {
+        $label = "%s %s";
+        return sprintf($label, $this->author->getName(), $this->author->getSurname());
     }
 }
 
