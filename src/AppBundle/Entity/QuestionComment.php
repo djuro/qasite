@@ -17,6 +17,7 @@ class QuestionComment extends Comment
      */
     private $question;
     
+    
     /**
      * 
      * @return Question

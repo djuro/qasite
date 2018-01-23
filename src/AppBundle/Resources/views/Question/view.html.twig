@@ -1,8 +1,12 @@
 {% extends "AppBundle::layout.html.twig" %}
 
 {% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link href="{{asset('bundles/app/css/questionView.css')}}" rel="stylesheet" />
+    {% endblock stylesheets %}
     <div id="wrapper">
-        
+     
     {% include "AppBundle::header.html.twig" %}
     <section id="featured">
         <!-- start slider -->
@@ -35,28 +39,38 @@
                 </div>
             </div>
         {% else %}
+            {% if question_comments|length>0 %}
+                
+                {% for comment in question_comments %}
+                    <div class="row">
+                        <div class="col-md-1">&nbsp;</div>
+                        <div class="col-md-11" style="font-size:small;">
+                            {{ comment.body }} - <a href="#">{{ comment.author.name ~' '~ comment.author.surname}}</a>
+                            {{ comment.createdAt|date("d.m.'y. G:i")}}h
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% endif %}
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#" id="comment-form-control">add a comment</a>
+                    <a href="#" id="add-comment">add a comment</a>
                 </div>
             </div>
         {% endif %}
         <div class="row">
             <div class="col-md-12">
-                <form novalidate method="post" action="{{path('question_comment_new',{'question':question.id})}}">
+                <form novalidate id="question-comment-form" method="post" action="{{path('question_comment_new',{'question':question.id})}}">
                     <div class="form-group">
                     <div class="row">
-                        <div class="col-md-12">
-                            {{form_label(comment_form.comment)}}
-                        </div>
-                        <div class="col-md-12">
+                        <div class="col-md-1">&nbsp;</div>
+                        <div class="col-md-9">
                             {{form_widget(comment_form.comment,{'attr':{'class':'form-control'}})}}
                             {{form_widget(comment_form._token)}}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-default">Post Comment</button>
+                    
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-default">Add Comment</button>
                         </div>
                     </div>
                     </div>
@@ -120,3 +134,8 @@
     </section>
             </div>
 {% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('bundles/app/js/questionView.js')}}"></script>
+{% endblock javascripts %}

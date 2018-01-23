@@ -25,5 +25,8 @@
         <service id="qasite.question_view_factory" class="AppBundle\Service\Application\QuestionViewFactory">
             <argument type="service" id="qasite.question_service" />
         </service>
+        <service id="qasite.comment_repository" class="AppBundle\Service\Repository\CommentRepository">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+        </service>
     </services>
 </container>

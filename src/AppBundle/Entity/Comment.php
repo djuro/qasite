@@ -38,6 +38,8 @@ abstract class Comment
     /**
      *
      * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="author", referencedColumnName="id")
      */
     protected $author;
     

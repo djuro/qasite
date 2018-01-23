@@ -7,16 +7,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="" />
 	<!-- css -->
-	<link href="{{asset('bundles/app/css/bootstrap.min.css')}}" rel="stylesheet" />
-	<link href="{{asset('bundles/app/css/fancybox/jquery.fancybox.css')}}" rel="stylesheet">
-	<link href="{{asset('bundles/app/css/jcarousel.css')}}" rel="stylesheet" />
-	<link href="{{asset('bundles/app/css/flexslider.css')}}" rel="stylesheet" />
-	<link href="{{asset('bundles/app/css/style.css')}}" rel="stylesheet" />
-        <link href="{{asset('bundles/app/css/qasite_style.css')}}" rel="stylesheet" />
+        {% block stylesheets %}
+            <link href="{{asset('bundles/app/css/bootstrap.min.css')}}" rel="stylesheet" />
+            <link href="{{asset('bundles/app/css/fancybox/jquery.fancybox.css')}}" rel="stylesheet">
+            <link href="{{asset('bundles/app/css/jcarousel.css')}}" rel="stylesheet" />
+            <link href="{{asset('bundles/app/css/flexslider.css')}}" rel="stylesheet" />
+            <link href="{{asset('bundles/app/css/style.css')}}" rel="stylesheet" />
+            <link href="{{asset('bundles/app/css/qasite_style.css')}}" rel="stylesheet" />
 
-	<!-- Theme skin -->
-	<link href="{{asset('bundles/app/skins/default.css')}}" rel="stylesheet" />
-
+            <!-- Theme skin -->
+            <link href="{{asset('bundles/app/skins/default.css')}}" rel="stylesheet" />
+        {% endblock stylesheets %}
 	<!-- =======================================================
     Theme Name: Moderna
     Theme URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/
