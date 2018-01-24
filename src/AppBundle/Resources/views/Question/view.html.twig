@@ -77,32 +77,8 @@
                 </form>
             </div>
         </div>
-        {% if answers|length() > 0%}
-            <div class="row">
-                <div class="col-md-12">
-                    {% if answers|length() == 1 %}
-                        <h4>{{answers|length()}} answer</h4>
-                    {% else %}
-                        <h4>{{answers|length()}} answers</h4>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-        {% for answer in answers %}
-            <div class="row">
-                <div class="col-md-10">
-                    {{answer.body}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-1">
-                    <a href="#">{{answer.authorLabel}}</a>
-                </div>
-                <div class="col-md-2">
-                    {{answer.createdAt|date("d. m. 'y. G:i")}}h
-                </div>
-            </div>
-        {% endfor %}
+        {% include "AppBundle:Question:answers.html.twig" %}
+        
         {% if authenticated == true %}
         <form novalidate action="" method="post" id="answer-form">
             <div class="form-group">

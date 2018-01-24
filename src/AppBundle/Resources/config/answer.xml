@@ -14,5 +14,7 @@
         <service id="qasite.answer_repository" class="AppBundle\Service\Repository\AnswerRepository">
             <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
+        <service id="qasite.answer_view_factory" class="AppBundle\Service\Application\AnswerViewFactory">
+        </service>
     </services>
 </container>

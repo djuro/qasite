@@ -33,7 +33,7 @@ class QuestionController extends Controller
             $questionService = $this->get('qasite.question_service');
             $questionRepository = $this->get('qasite.question_repository');
             $formQuestion = $form->getData();
-            $question = $questionService->transformFormQuestion($question, $formQuestion);
+            $questionService->transformFormQuestion($question, $formQuestion);
             $questionRepository->persist($question);
             $questionRepository->emFlush();
             return $this->redirect($this->generateUrl('question_list'));
@@ -74,6 +74,10 @@ class QuestionController extends Controller
      */
     public function questionViewAction(Request $request, Question $question)
     {
+        $questionViewFactory = $this->get('qasite.question_view_factory');
+        $questionView = $questionViewFactory->createFromQuestion($question);
+        d($questionView); exit;
+        
         $answerForm = $this->createForm(AnswerType::class);
         $commentForm = $this->createForm(CommentType::class);
         $answerForm->handleRequest($request);

@@ -2,6 +2,8 @@
 
 namespace AppBundle\View;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * DTO for Question entity.
  */
@@ -32,6 +34,24 @@ class QuestionView
     private $score;
     
     /**
+     *
+     * @var AnswerView[]
+     */
+    private $answers;
+    
+    /**
+     *
+     * @var AuthorView
+     */
+    private $author;
+    
+    /**
+     *
+     * @var CommentView[]
+     */
+    private $comments;
+    
+    /**
      * 
      * @param string $id
      * @param string $title
@@ -42,6 +62,8 @@ class QuestionView
         $this->id = $id;
         $this->title = $title;
         $this->body = $body;
+        $this->answers = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
     
     public function getId() {
@@ -62,6 +84,42 @@ class QuestionView
 
     public function setScore($score) {
         $this->score = $score;
+        return $this;
+    }
+
+    public function getAnswers(): array {
+        return $this->answers->toArray();
+    }
+
+    public function setAnswers(array $answers) {
+        $this->answers = $answers;
+        return $this;
+    }
+
+    public function addAnswer(AnswerView $answer) {
+        $this->answers->add($answer);
+    }
+    
+    public function getAuthor(): AuthorView {
+        return $this->author;
+    }
+
+    public function getComments(): array {
+        return $this->comments->toArray();
+    }
+
+    public function addComment(CommentView $comment)
+    {
+        $this->comments->add($comment);
+    }
+    
+    public function setAuthor(AuthorView $author) {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function setComments(array $comments) {
+        $this->comments = $comments;
         return $this;
     }
 
