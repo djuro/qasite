@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-md-12">
+        <form novalidate id="answer-comment-form" method="post" action="{{path('answer_comment_new',{'question':question,'answer':answer})}}">
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">&nbsp;</div>
+                <div class="col-md-9">
+                    {{form_widget(comment_form.comment,{'attr':{'class':'form-control'}})}}
+                    {{form_widget(comment_form._token)}}
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-default">Add Comment</button>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -17,7 +17,13 @@ class AnswerViewFactory
     public function createFrom(Answer $answer)
     {
         $authorView = $this->createAuthorView($answer->getCreatedBy());
-        $answerView = new AnswerView($answer->getBody(), $answer->getCreatedAt(), $authorView);
+        $answerView = new AnswerView($answer->getId(), $answer->getBody(), $answer->getCreatedAt());
+        $answerView->setAuthor($authorView);
+        $this->createCommentViews($answer);
         return $answerView;
+    }
+    
+    private function createCommentViews(Answer $answer) {
+        
     }
 }

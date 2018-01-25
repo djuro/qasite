@@ -52,6 +52,12 @@ class QuestionView
     private $comments;
     
     /**
+     *
+     * @var int
+     */
+    private $createdAt;
+    
+    /**
      * 
      * @param string $id
      * @param string $title
@@ -123,5 +129,12 @@ class QuestionView
         return $this;
     }
 
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
 
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
 }

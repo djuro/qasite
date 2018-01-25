@@ -10,6 +10,7 @@ use AppBundle\Form\Type\AnswerType;
 use AppBundle\Entity\Answer;
 use AppBundle\Form\Model\Question as FormQuestion;
 use AppBundle\Entity\QuestionComment;
+use AppBundle\Entity\AnswerComment;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -76,10 +77,11 @@ class QuestionController extends Controller
     {
         $questionViewFactory = $this->get('qasite.question_view_factory');
         $questionView = $questionViewFactory->createFromQuestion($question);
-        d($questionView); exit;
+        //d($questionView); exit;
         
         $answerForm = $this->createForm(AnswerType::class);
         $commentForm = $this->createForm(CommentType::class);
+        $answerCommentForm = $this->createForm(CommentType::class);
         $answerForm->handleRequest($request);
         
         if($answerForm->isValid()) {
@@ -89,12 +91,11 @@ class QuestionController extends Controller
         }
         return $this->render("AppBundle:Question:view.html.twig", 
                 array(
-                    'question' => $question,
+                    'question_view' => $questionView, 
                     'answer_form' => $answerForm->createView(),
                     'comment_form' => $commentForm->createView(),
+                    'answer_comment_form' => $answerCommentForm->createView(),
                     'authenticated' => $this->resolvePermission(),
-                    'answers' => $question->getAnswers()->toArray(),
-                    'question_comments' => $question->getComments()->toArray()
                 ));
     }
     
@@ -122,6 +123,28 @@ class QuestionController extends Controller
         if($commentForm->isValid()) {
             $comment = new QuestionComment;
             $comment->setQuestion($question)
+                    ->setBody($commentForm->getData()['comment'])
+                    ->setAuthor($this->getUser());
+            $commentRepository = $this->get('qasite.comment_repository');
+            $commentRepository->persist($comment);
+            $commentRepository->flush();
+            return $this->redirect($this->generateUrl('question_engage', 
+                    array('question'=>$question->getId())));
+        }
+    }
+    
+    /**
+     * @Route("/question/{question}/answer/{answer}/comment/new", name="answer_comment_new")
+     * @ParamConverter("question", options={"mapping": {"question": "id"}})
+     * @ParamConverter("answer", options={"mapping": {"answer": "id"}})
+     */
+    public function storeAnswerCommentAction(Request $request, Question $question, Answer $answer)
+    {
+        $commentForm = $this->createForm(CommentType::class);
+        $commentForm->handleRequest($request);
+        if($commentForm->isValid()) {
+            $comment = new AnswerComment;
+            $comment->setAnswer($answer)
                     ->setBody($commentForm->getData()['comment'])
                     ->setAuthor($this->getUser());
             $commentRepository = $this->get('qasite.comment_repository');

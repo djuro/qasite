@@ -9,43 +9,42 @@
      
     {% include "AppBundle::header.html.twig" %}
     <section id="featured">
-        <!-- start slider -->
         <div class="container">
-        <div class="page-header"><h4>{{question.title}}</h4></div>
+        <div class="page-header"><h4>{{question_view.title}}</h4></div>
         <div class="row">
             <div class="col-md-12">
                 <p>
-                    {{question.body}}
+                    {{question_view.body}}
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                Asked by: <a href="#">{{question.authorLabel}}</a>
+                Asked by: <a href="#">{{question_view.author.nameLabel}}</a>
             </div>
             <div class="col-md-12">
-                {{question.createdAt|date("d.m.'y. G:i")}}h
+                {{question_view.createdAt|date("d.m.'y. G:i")}}h
             </div>
         </div>
         {% if authenticated == false %}
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{path('question_engage',{'question':question.id})}}">add a comment</a>
+                    <a href="{{path('question_engage',{'question':question_view.id})}}">add a comment</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{path('question_engage',{'question':question.id})}}" class="btn btn-default">Your Answer</a>
+                    <a href="{{path('question_engage',{'question':question_view.id})}}" class="btn btn-default">Your Answer</a>
                 </div>
             </div>
         {% else %}
-            {% if question_comments|length>0 %}
+            {% if question_view.comments|length>0 %}
                 
-                {% for comment in question_comments %}
+                {% for comment in question_view.comments %}
                     <div class="row">
                         <div class="col-md-1">&nbsp;</div>
                         <div class="col-md-11" style="font-size:small;">
-                            {{ comment.body }} - <a href="#">{{ comment.author.name ~' '~ comment.author.surname}}</a>
+                            {{ comment.body }} - <a href="#">{{ comment.author.nameLabel}}</a>
                             {{ comment.createdAt|date("d.m.'y. G:i")}}h
                         </div>
                     </div>
@@ -60,7 +59,7 @@
         {% endif %}
         <div class="row">
             <div class="col-md-12">
-                <form novalidate id="question-comment-form" method="post" action="{{path('question_comment_new',{'question':question.id})}}">
+                <form novalidate id="question-comment-form" method="post" action="{{path('question_comment_new',{'question':question_view.id})}}">
                     <div class="form-group">
                     <div class="row">
                         <div class="col-md-1">&nbsp;</div>

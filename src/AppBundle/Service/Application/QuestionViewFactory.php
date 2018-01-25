@@ -62,6 +62,9 @@ class QuestionViewFactory
         $questionView = new QuestionView($question->getId(), $question->getTitle(), $question->getBody());
         $answers = $question->getAnswers()->toArray();
         $comments = $question->getComments()->toArray();
+        $questionView->setAuthor($this->createAuthorView($question->getAuthor()))
+                ->setCreatedAt($question->getCreatedAt());
+        
         $this->createCommentViews($comments, $questionView);
         $this->createAnswerViews($answers, $questionView);
         
