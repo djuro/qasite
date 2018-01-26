@@ -58,6 +58,18 @@ class QuestionView
     private $createdAt;
     
     /**
+     *
+     * @var int
+     */
+    private $answersCount;
+    
+    /**
+     *
+     * @var int
+     */
+    private $votes;
+    
+    /**
      * 
      * @param string $id
      * @param string $title
@@ -135,6 +147,24 @@ class QuestionView
 
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+    
+    public function getAnswersCount() {
+        return $this->answersCount;
+    }
+
+    public function setAnswersCount($answersCount) {
+        $this->answersCount = $answersCount;
+        return $this;
+    }
+    
+    public function getVotes() {
+        return $this->votes;
+    }
+
+    public function setVotes($votes) {
+        $this->votes = $votes;
         return $this;
     }
 }

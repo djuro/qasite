@@ -257,5 +257,15 @@ class Question
         $label = "%s %s";
         return sprintf($label, $this->author->getName(), $this->author->getSurname());
     }
+    
+    /**
+     * 
+     * @return int
+     */
+    public function countAnswers()
+    {
+        $answersCount = count($this->answers->toArray());
+        return $answersCount;
+    }
 }
 

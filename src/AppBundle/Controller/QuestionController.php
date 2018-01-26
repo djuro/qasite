@@ -87,7 +87,8 @@ class QuestionController extends Controller
         if($answerForm->isValid()) {
             $answerText = $answerForm->getData()['answer'];
             $this->processAnswerResponse($question, $answerText);
-            return $this->redirect($this->generateUrl('questions'));
+            return $this->redirect($this->generateUrl('question_engage', 
+                    array('question'=>$question->getId())));
         }
         return $this->render("AppBundle:Question:view.html.twig", 
                 array(

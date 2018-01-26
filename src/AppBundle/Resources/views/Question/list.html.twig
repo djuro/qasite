@@ -20,29 +20,17 @@
                     <table>
                         <tr>
                             <td>
-                                {% if links_active == true %}
-                                    <a href="#" class="upvote" data-question="{{question.id}}">up</a>
-                                {% else %}
-                                    up
-                                {% endif %}
+                                <strong>{{ question.score }}</strong>
+                                <br /> votes
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="total-votes" id="votes-{{question.id}}">
-                                {{question.score}}
-                                </span>
+                                <strong>{{ question.answersCount }}</strong>
+                                <br /> answers
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                               {% if links_active == true %}
-                                    <a href="#" class="downvote" data-question="{{question.id}}">down</a>
-                               {% else %}
-                                   down
-                               {% endif %}
-                            </td>
-                        </tr>
+                       
                     </table>
                 </div>
                 <div class="col-md-11">
@@ -54,10 +42,3 @@
     </section>
             </div>
 {% endblock body %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{asset('bundles/app/js/upvote.js')}}"></script>
-    <script src="{{asset('bundles/app/js/downvote.js')}}"></script>
-
-{% endblock javascripts %}

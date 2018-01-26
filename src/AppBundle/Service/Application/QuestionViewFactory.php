@@ -46,7 +46,8 @@ class QuestionViewFactory
         foreach($questions as $question)
         {
             $questionView = new QuestionView($question->getId(), $question->getTitle(), $question->getBody());
-            $questionView->setScore($question->getScore());
+            $questionView->setScore($question->getScore())
+                    ->setAnswersCount($question->countAnswers());
             $views[] = $questionView;
         }
         return $views;
@@ -63,7 +64,8 @@ class QuestionViewFactory
         $answers = $question->getAnswers()->toArray();
         $comments = $question->getComments()->toArray();
         $questionView->setAuthor($this->createAuthorView($question->getAuthor()))
-                ->setCreatedAt($question->getCreatedAt());
+                ->setCreatedAt($question->getCreatedAt())
+                ->setVotes($question->getScore());
         
         $this->createCommentViews($comments, $questionView);
         $this->createAnswerViews($answers, $questionView);

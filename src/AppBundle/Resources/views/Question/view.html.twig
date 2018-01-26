@@ -13,7 +13,33 @@
         <div class="page-header"><h4>{{question_view.title}}</h4></div>
         <div class="row">
             <div class="col-md-1">
-                &nbsp;
+                <table>
+                        <tr>
+                            <td>
+                                {% if authenticated == true %}
+                                    <a href="#" class="upvote" data-question="{{question_view.id}}"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="total-votes" id="votes-{{question_view.id}}">
+                                {{question_view.votes}}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               {% if authenticated == true %}
+                                    <a href="#" class="downvote" data-question="{{question_view.id}}"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                               {% else %}
+                                   <span class="glyphicon glyphicon-chevron-down"></span>
+                               {% endif %}
+                            </td>
+                        </tr>
+                    </table>
             </div>
             <div class="col-md-11">
                 <p>
@@ -124,5 +150,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{asset('bundles/app/js/upvote.js')}}"></script>
+    <script src="{{asset('bundles/app/js/downvote.js')}}"></script>
     <script type="text/javascript" src="{{asset('bundles/app/js/questionView.js')}}"></script>
 {% endblock javascripts %}
