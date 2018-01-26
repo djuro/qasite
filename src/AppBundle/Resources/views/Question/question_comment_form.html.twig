@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <form novalidate id="answer-comment-form" method="post" action="{{path('answer_comment_new',{'question':question,'answer':answer})}}">
+        <form novalidate id="answer-comment-form" method="post" {% block action %} action="{{path('question_comment_new',{'question':question})}}" {% endblock action %}>
             <div class="form-group">
             <div class="row">
                 <div class="col-md-1">&nbsp;</div>

@@ -1,0 +1,5 @@
+{% extends "AppBundle:Question:question_comment_form.html.twig" %}
+
+{% block action %} 
+    action="{{path('answer_comment_new',{'question':question,'answer':answer})}}" 
+{% endblock action %}

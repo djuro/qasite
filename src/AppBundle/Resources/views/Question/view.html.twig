@@ -12,7 +12,10 @@
         <div class="container">
         <div class="page-header"><h4>{{question_view.title}}</h4></div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-11">
                 <p>
                     {{question_view.body}}
                 </p>
@@ -52,8 +55,11 @@
                 
             {% endif %}
             <div class="row">
-                <div class="col-md-12">
-                    <a href="#" id="add-comment">add a comment</a>
+                <div class="col-md-1">
+                    &nbsp;
+                </div>
+                <div class="col-md-11 comment-form-container">
+                    <a href="#" class="add-question-comment" data-question="{{ question_view.id }}">add a comment</a>
                 </div>
             </div>
         {% endif %}

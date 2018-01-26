@@ -11,25 +11,46 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommentFormAjaxController extends Controller
 {
+    
     /**
      * 
-     * @Route("/question/render-comment-form", options={"expose"=true}, name="question_render_comment_form")
+     * @Route("/question/render-question-comment-form", options={"expose"=true}, name="render_question_comment_form")
      */
-    public function renderCommentFormAction(Request $request)
+    public function renderQuestionCommentFormAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $question = $request->request->get('question');
+            $form = $this->createForm(CommentType::class);
+            
+            return $this->render("AppBundle:Question:question_comment_form.html.twig", 
+                    array(
+                        'comment_form' => $form->createView(),
+                        'question' => $question
+                    ));
+        } else {
+            return new NotFoundHttpException();
+        }
+    }
+    
+    /**
+     * 
+     * @Route("/question/render-answer-comment-form", options={"expose"=true}, name="render_answer_comment_form")
+     */
+    public function renderAnswerCommentFormAction(Request $request)
     {
         if($request->isXmlHttpRequest()) {
             $question = $request->request->get('question');
             $answer = $request->request->get('answer');
             $form = $this->createForm(CommentType::class);
             
-            return $this->render("AppBundle:Question:comment_form.html.twig", 
+            return $this->render("AppBundle:Question:answer_comment_form.html.twig", 
                     array(
                         'comment_form' => $form->createView(),
                         'question' => $question,
                         'answer' => $answer
                     ));
         } else {
-            return new NotFoundHttpException;
+            return new NotFoundHttpException();
         }
     }
 }

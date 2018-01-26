@@ -38,6 +38,7 @@ class Question
      *
      * @var Answer
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $answers;
     
@@ -45,6 +46,7 @@ class Question
      *
      * @var QuestionComment[]
      * @ORM\OneToMany(targetEntity="QuestionComment", mappedBy="question")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
     

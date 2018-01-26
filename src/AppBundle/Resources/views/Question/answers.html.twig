@@ -1,6 +1,6 @@
 {% if question_view.answers|length() > 0%}
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-11">
                     {% if question_view.answers|length() == 1 %}
                         <h4>{{question_view.answers|length()}} answer</h4>
                     {% else %}
@@ -10,17 +10,21 @@
             </div>
         {% endif %}
         {% for answer in question_view.answers %}
+            <hr />
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-1">
+                    &nbsp;
+                </div>
+                <div class="col-md-11">
                     {{answer.body}}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-1">
-                    <a href="#">{{answer.author.nameLabel}}</a>
+                    &nbsp;
                 </div>
-                <div class="col-md-2">
-                    {{answer.createdAt|date("d. m. 'y. G:i")}}h
+                <div class="col-md-3">
+                    <a href="#">{{answer.author.nameLabel}}</a> {{answer.createdAt|date("d. m. 'y. G:i")}}h
                 </div>
             </div>
             {% if answer.comments|length>0 %}
@@ -34,7 +38,12 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            <div class="comment-form-container">
-                <a href="#" class="add-comment" data-answer="{{ answer.id }}" data-question="{{ question_view.id }}">add a comment</a>
+            <div class="row">
+                <div class="col-md-1">
+                    &nbsp;
+                </div>
+                <div class="col-md-11 comment-form-container">
+                    <a href="#" class="add-answer-comment" data-answer="{{ answer.id }}" data-question="{{ question_view.id }}">add a comment</a>
+                </div>
             </div>
         {% endfor %}

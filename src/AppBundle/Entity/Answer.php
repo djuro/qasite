@@ -37,6 +37,7 @@ class Answer
      *
      * @var Comment
      * @ORM\OneToMany(targetEntity="AnswerComment", mappedBy="answer")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
     
