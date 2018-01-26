@@ -30,8 +30,8 @@
             {% if answer.comments|length>0 %}
                 {% for comment in answer.comments %}
                     <div class="row">
-                        <div class="col-md-1">&nbsp;</div>
-                        <div class="col-md-11" style="font-size:small;">
+                        <div class="col-md-2">&nbsp;</div>
+                        <div class="col-md-10" style="font-size:small;">
                             {{ comment.body }} - <a href="#">{{ comment.author.nameLabel}}</a>
                             {{ comment.createdAt|date("d.m.'y. G:i")}}h
                         </div>
@@ -42,8 +42,14 @@
                 <div class="col-md-1">
                     &nbsp;
                 </div>
-                <div class="col-md-11 comment-form-container">
-                    <a href="#" class="add-answer-comment" data-answer="{{ answer.id }}" data-question="{{ question_view.id }}">add a comment</a>
-                </div>
+                {% if authenticated == false %}
+                    <div class="col-md-11">
+                        <a href="{{path('question_engage',{'question':question_view.id})}}">add a comment</a>
+                    </div>
+                {% else %}
+                    <div class="col-md-11 comment-form-container">
+                        <a href="#" class="add-answer-comment" data-answer="{{ answer.id }}" data-question="{{ question_view.id }}">add a comment</a>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}

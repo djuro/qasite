@@ -22,16 +22,34 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                Asked by: <a href="#">{{question_view.author.nameLabel}}</a>
+            <div class="col-md-1">
+                    &nbsp;
             </div>
-            <div class="col-md-12">
+            <div class="col-md-11">
+                Asked by: <a href="#">{{question_view.author.nameLabel}}</a>&nbsp;
                 {{question_view.createdAt|date("d.m.'y. G:i")}}h
             </div>
         </div>
+        
+        {% if question_view.comments|length>0 %}
+                
+                {% for comment in question_view.comments %}
+                    <div class="row">
+                        <div class="col-md-2">&nbsp;</div>
+                        <div class="col-md-10" style="font-size:small;">
+                            {{ comment.body }} - <a href="#">{{ comment.author.nameLabel}}</a>
+                            {{ comment.createdAt|date("d.m.'y. G:i")}}h
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% endif %}
         {% if authenticated == false %}
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-1">
+                    &nbsp;
+                </div>
+                <div class="col-md-11">
                     <a href="{{path('question_engage',{'question':question_view.id})}}">add a comment</a>
                 </div>
             </div>
@@ -41,19 +59,7 @@
                 </div>
             </div>
         {% else %}
-            {% if question_view.comments|length>0 %}
-                
-                {% for comment in question_view.comments %}
-                    <div class="row">
-                        <div class="col-md-1">&nbsp;</div>
-                        <div class="col-md-11" style="font-size:small;">
-                            {{ comment.body }} - <a href="#">{{ comment.author.nameLabel}}</a>
-                            {{ comment.createdAt|date("d.m.'y. G:i")}}h
-                        </div>
-                    </div>
-                {% endfor %}
-                
-            {% endif %}
+            
             <div class="row">
                 <div class="col-md-1">
                     &nbsp;
