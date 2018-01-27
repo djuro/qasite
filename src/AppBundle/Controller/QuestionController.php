@@ -189,4 +189,12 @@ class QuestionController extends Controller
         else 
             return FALSE;
     }
+    
+    /**
+     * @Route("/layout")
+     */
+    public function layoutAction()
+    {
+        return $this->render("AppBundle::layout.html.twig");
+    }
 }

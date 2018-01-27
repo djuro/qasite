@@ -1,25 +1,21 @@
 {% extends "AppBundle::layout.html.twig" %}
 
-{% block body %}
+{% block main %}
     {% block stylesheets %}
         {{ parent() }}
         <link href="{{asset('bundles/app/css/questionView.css')}}" rel="stylesheet" />
     {% endblock stylesheets %}
-    <div id="wrapper">
-     
-    {% include "AppBundle::header.html.twig" %}
-    <section id="featured">
-        <div class="container">
-        <div class="page-header"><h4>{{question_view.title}}</h4></div>
+    
+    <h4>{{question_view.title}}</h4>
         <div class="row">
             <div class="col-md-1">
                 <table>
                         <tr>
                             <td>
                                 {% if authenticated == true %}
-                                    <a href="#" class="upvote" data-question="{{question_view.id}}"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                                    <a href="#" class="upvote" data-question="{{question_view.id}}"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
                                 {% else %}
-                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
                                 {% endif %}
                             </td>
                         </tr>
@@ -33,9 +29,9 @@
                         <tr>
                             <td>
                                {% if authenticated == true %}
-                                    <a href="#" class="downvote" data-question="{{question_view.id}}"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                                    <a href="#" class="downvote" data-question="{{question_view.id}}"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
                                {% else %}
-                                   <span class="glyphicon glyphicon-chevron-down"></span>
+                                   <i class="fa fa-chevron-down" aria-hidden="true"></i>
                                {% endif %}
                             </td>
                         </tr>
@@ -144,13 +140,14 @@
             </form>
         {% endif %}
     </div>
-    </section>
-            </div>
-{% endblock body %}
+    
+{% endblock main %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{asset('bundles/app/js/upvote.js')}}"></script>
     <script src="{{asset('bundles/app/js/downvote.js')}}"></script>
     <script type="text/javascript" src="{{asset('bundles/app/js/questionView.js')}}"></script>
+    
+    
 {% endblock javascripts %}
