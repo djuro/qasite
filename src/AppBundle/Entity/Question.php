@@ -158,7 +158,7 @@ class Question
      */
     public function addAnswer(Answer $answer)
     {
-        $answer->setQuestion($this);
+        //$answer->setQuestion($this);
         $this->answers->add($answer);
     }
     

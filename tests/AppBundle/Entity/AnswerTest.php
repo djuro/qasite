@@ -24,12 +24,18 @@ class AnswerTest extends TestCase
      */
     private $answer;
     
+    /**
+     *
+     * @var Question
+     */
+    private $question;
+    
     
     public function setUp()
     {
-        $question = $this->createQuestion();
+        $this->question = $this->createQuestion();
         $user = $this->createUserMock();
-        $this->answer = new Answer($question, $user);
+        $this->answer = new Answer($this->question, $user);
     }
     
     /**
@@ -54,9 +60,9 @@ class AnswerTest extends TestCase
     
     public function testSetGetQuestion()
     {
-        $question = new Question();
-        $question->addAnswer($this->answer);
-        $this->assertTrue($this->answer->getQuestion()===$question);
+        //$question = $this->createQuestion();
+        $this->question->addAnswer($this->answer);
+        $this->assertTrue($this->answer->getQuestion() === $this->question);
     }
     
     public function testAddRemoveComment()

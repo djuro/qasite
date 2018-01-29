@@ -84,7 +84,7 @@ class QuestionTest extends TestCase
     
     public function testAddRemoveAnswer()
     {
-        $answer = new Answer();
+        $answer = new Answer($this->question, $author = new User());
         $this->question->addAnswer($answer);
         $addedAnswer = $this->question->getAnswers()->first();
         $this->assertEquals($addedAnswer, $answer);

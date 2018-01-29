@@ -19,13 +19,13 @@ class QuestionServiceTest extends TestCase
      * @param FormQuestion $formQuestion
      * @dataProvider providerForTestTransformFormQuestion
      */
-    public function testTransformFormQuestion($formQuestion) {
+    public function testTransformFormQuestion(Question $question, FormQuestion $formQuestion) {
         
         $questionService = $this->getMockBuilder('AppBundle\Service\Application\QuestionService')
                                 ->disableOriginalConstructor()
                                 ->setMethods(null)
                                 ->getMock();
-        $question = $questionService->transformFormQuestion($formQuestion);
+        $question = $questionService->transformFormQuestion($question, $formQuestion);
         $this->assertTrue($question instanceof Question);
     }
     
@@ -34,11 +34,12 @@ class QuestionServiceTest extends TestCase
      * @return FormQuestion[]
      */
     public function providerForTestTransformFormQuestion() {
+        $question = new Question();
         $formQuestion = new FormQuestion();
         $formQuestion->setTitle(self::TITLE)
                 ->setBody(self::BODY);
         return array(
-            array($formQuestion)
+            array($question, $formQuestion)
         );
     }
 }

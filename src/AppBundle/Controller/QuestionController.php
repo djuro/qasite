@@ -26,11 +26,13 @@ class QuestionController extends Controller
     public function newAction(Request $request)
     {
         $form = $this->createForm(QuestionType::class);
-        
+        $user = $this->getUser();
+        //d($user); exit;
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
-        if($form->isValid()) {
+        
+        if($form->isSubmitted() && $form->isValid()) {
             $question = new Question();
+            $question->setAuthor($user);
             $questionService = $this->get('qasite.question_service');
             $questionRepository = $this->get('qasite.question_repository');
             $formQuestion = $form->getData();
@@ -38,7 +40,7 @@ class QuestionController extends Controller
             $questionRepository->persist($question);
             $questionRepository->emFlush();
             return $this->redirect($this->generateUrl('question_list'));
-    }}
+    }
         return $this->render("AppBundle:Question:new.html.twig", 
                 array('form'=>$form->createView()));
     }
@@ -84,7 +86,7 @@ class QuestionController extends Controller
         $answerCommentForm = $this->createForm(CommentType::class);
         $answerForm->handleRequest($request);
         
-        if($answerForm->isValid()) {
+        if($answerForm->isSubmitted() && $answerForm->isValid()) {
             $answerText = $answerForm->getData()['answer'];
             $this->processAnswerResponse($question, $answerText);
             return $this->redirect($this->generateUrl('question_engage', 
@@ -162,13 +164,16 @@ class QuestionController extends Controller
      */
     public function editAction(Request $request, Question $question)
     {
+        //Kint::trace(); // Debug backtrace
+         //d($request); exit;
         $questionService = $this->get('qasite.question_service');
         $formQuestion = new FormQuestion;
         $questionService->transformDomainQuestion($question, $formQuestion);
         $form = $this->createForm(QuestionType::class, $formQuestion);
         
         $form->handleRequest($request);
-        if($form->isValid()) {
+        
+        if($form->isSubmitted() && $form->isValid()) {
             $questionRepository = $this->get('qasite.question_repository');
             $questionService->transformFormQuestion($question, $formQuestion);
             $questionRepository->emFlush();
@@ -176,6 +181,7 @@ class QuestionController extends Controller
                     array('question'=>$question->getId()
                     )));
         }
+    
         return $this->render("AppBundle:Question:edit.html.twig",
                 array(
                     'form'=>$form->createView()

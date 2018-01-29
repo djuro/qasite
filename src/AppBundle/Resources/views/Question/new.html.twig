@@ -1,13 +1,11 @@
 {% extends "AppBundle::layout.html.twig" %}
 
-{% block body %}
-    <div id="wrapper">
-        
-    {% include "AppBundle::header.html.twig" %}
-    <section id="featured">
-			<!-- start slider -->
-			<div class="container">
-                            <div class="page-header"><h4>Ask Question</h4></div>
+{% form_theme form _self %}
+
+{% block main %}
+    
+ <div class="container">
+    <div class="page-header"><h4>Ask Question</h4></div>
     <form novalidate action="" method="post">
   <div class="form-group">
       <div>&nbsp;</div>
@@ -36,13 +34,21 @@
         <div class="row">
             <div class="col-md-4">
                 {% block submit_button %}
-                    <button type="submit" class="btn btn-default">Post Question</button>
+                    <button type="submit" class="btn btn-primary">Post Question</button>
                 {% endblock submit_button %}
             </div>
         </div>
     </div>
     </form>
     </div>
-    </section>
-            </div>
-{% endblock body %}
+{% endblock main %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="text-danger">{{ error.message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}

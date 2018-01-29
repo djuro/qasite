@@ -10,14 +10,14 @@ class Question
     /**
      *
      * @var string
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Question title is mandatory.")
      */
     private $title;
     
     /**
      *
      * @var string
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Question text is mandatory.")
      */
     private $body;
     
