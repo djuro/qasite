@@ -19,9 +19,22 @@ class QuestionControllerTest extends WebTestCase
     
     const BODY = "Some test body text ...";
     
+    const ANSW_BODY = "This is some very smart answer text ...";
+    
+    const COMMENT = "A comment text. Another bunch of wise words ...";
+    
+    /**
+     *
+     * @var Symfony\Bundle\FrameworkBundle\Client
+     */
     private $client;
- 
+    
+    /**
+     *
+     * @var AppBundle\Service\Repository\QuestionRepository
+     */
     private $questionRepository;
+    
     
     public function setUp()
     {
@@ -60,14 +73,8 @@ class QuestionControllerTest extends WebTestCase
         $this->logIn();
         $this->client->followRedirects(true);
         $route = sprintf("question/%s/edit", $question->getId());
-        //d($route);
-        //d($this->client->getContainer()->get('sensio_framework_extra.converter.doctrine.orm'));
-        //exit;
-        //d($this->client->getRequest());
+        
         $crawler = $this->client->request('GET', $route);
-        //d($this->client->getResponse()->getContent());
-        //d($this->client->getRequest());
-        //$this->client->getRequest()->getAttributes()->set('question', $question);
         
         $this->assertGreaterThan(0,
                 $crawler->filter('html:contains("Ask Question")')->count());
@@ -93,25 +100,59 @@ class QuestionControllerTest extends WebTestCase
         );
     }
     
-    public function providerForTestEdit()
+    public function testQuestionViewAction()
     {
-       //$testQuestion =  
+        $question = $this->findQuestion();
+        $this->client->followRedirects(true);
+        $route = sprintf("question/%s/view", $question->getId());
+        
+        $crawler = $this->client->request('GET', $route);
+        $htmlQuery = sprintf('html:contains("%s")', $question->getTitle());
+        $this->assertGreaterThan(0,
+                $crawler->filter($htmlQuery)->count());
+        $this->assertEquals(0,
+                $crawler->filter('html:contains("Post your answer")')->count());
+        
+        // test by another URL
+        $this->logIn();
+        $authenticatedCrawler = $this->client->request('GET', '/question/'.$question->getId().'/engage');
+        $this->assertGreaterThan(0,
+                $authenticatedCrawler->filter('html:contains("Post your answer")')->count());
+        
+        $form = $authenticatedCrawler->selectButton('Post your answer')->form();
+        $form['answer[answer]'] = self::ANSW_BODY;
+        $formSubmitCrawler = $this->client->submit($form);
+        $this->assertGreaterThan(0,
+                $formSubmitCrawler->filter('html:contains("'.self::ANSW_BODY.'")')->count());
     }
     
-//    private function logIn()
-//    {
-//        $session = $this->client->getContainer()->get('session');
-//        $firewallContext = 'main';
-//
-//        $token = new UsernamePasswordToken('admin', null, $firewallContext, array('ROLE_ADMIN'));
-//        $session->set('_security_'.$firewallContext, serialize($token));
-//        $session->save();
-//
-//        $cookie = new Cookie($session->getName(), $session->getId());
-//        $this->client->getCookieJar()->set($cookie);
-//    }
-    private function logIn()
+    public function testHomeAction()
     {
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', "/");
+        $this->assertGreaterThan(0,
+                $crawler->filter('html:contains("Questions")')->count());
+    }
+    
+    public function testStoreQuestionCommentAction()
+    {
+        $question = $this->findQuestion();
+        $this->logIn();
+        $this->client->followRedirects(true);
+        $authenticatedCrawler = $this->client->request('GET', '/question/'.$question->getId().'/engage');
+        $links = $authenticatedCrawler->selectLink('add a comment');
+        $links->first()->link();
+        $this->assertGreaterThan(0,
+            $authenticatedCrawler->filter('html:contains("Add Comment")')->count());
+        $form = $authenticatedCrawler->selectButton('Add Comment')->form();
+        $form['comment[comment]'] = self::COMMENT;
+        $commentSubmittedCrawler = $this->client->submit($form);
+        $this->assertGreaterThan(0,
+            $commentSubmittedCrawler->filter('html:contains("'.$question->getTitle().'")')->count());
+        //$crawler->selectLink('Click for Report')->link();
+    }
+    
+    private function logIn() {
         $session = $this->client->getContainer()->get('session');
         $firewallContext = 'main';
         $person = self::$kernel->getContainer()->get('doctrine')->getRepository('AppBundle:User')->findOneByUsername('testuser');

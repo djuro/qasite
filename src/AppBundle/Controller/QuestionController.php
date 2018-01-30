@@ -79,7 +79,6 @@ class QuestionController extends Controller
     {
         $questionViewFactory = $this->get('qasite.question_view_factory');
         $questionView = $questionViewFactory->createFromQuestion($question);
-        //d($questionView); exit;
         
         $answerForm = $this->createForm(AnswerType::class);
         $commentForm = $this->createForm(CommentType::class);
@@ -196,11 +195,4 @@ class QuestionController extends Controller
             return FALSE;
     }
     
-    /**
-     * @Route("/layout")
-     */
-    public function layoutAction()
-    {
-        return $this->render("AppBundle::layout.html.twig");
-    }
 }
