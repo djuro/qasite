@@ -7,11 +7,6 @@ use AppBundle\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\BrowserKit\Cookie;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterManager;
-use Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener;
-
-use \Kint;
 
 class QuestionControllerTest extends WebTestCase
 {
@@ -134,23 +129,7 @@ class QuestionControllerTest extends WebTestCase
                 $crawler->filter('html:contains("Questions")')->count());
     }
     
-    public function testStoreQuestionCommentAction()
-    {
-        $question = $this->findQuestion();
-        $this->logIn();
-        $this->client->followRedirects(true);
-        $authenticatedCrawler = $this->client->request('GET', '/question/'.$question->getId().'/engage');
-        $links = $authenticatedCrawler->selectLink('add a comment');
-        $links->first()->link();
-        $this->assertGreaterThan(0,
-            $authenticatedCrawler->filter('html:contains("Add Comment")')->count());
-        $form = $authenticatedCrawler->selectButton('Add Comment')->form();
-        $form['comment[comment]'] = self::COMMENT;
-        $commentSubmittedCrawler = $this->client->submit($form);
-        $this->assertGreaterThan(0,
-            $commentSubmittedCrawler->filter('html:contains("'.$question->getTitle().'")')->count());
-        //$crawler->selectLink('Click for Report')->link();
-    }
+    
     
     private function logIn() {
         $session = $this->client->getContainer()->get('session');

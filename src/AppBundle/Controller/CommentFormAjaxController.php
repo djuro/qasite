@@ -28,7 +28,7 @@ class CommentFormAjaxController extends Controller
                         'question' => $question
                     ));
         } else {
-            return new NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
     }
     
@@ -50,7 +50,7 @@ class CommentFormAjaxController extends Controller
                         'answer' => $answer
                     ));
         } else {
-            return new NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
     }
 }
