@@ -72,12 +72,12 @@
                     &nbsp;
                 </div>
                 <div class="col-md-11">
-                    <a href="{{path('question_engage',{'question':question_view.id})}}">add a comment</a>
+                    <a href="{{path('fos_user_security_login')}}">add a comment</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{path('question_engage',{'question':question_view.id})}}" class="btn btn-default">Your Answer</a>
+                    <a href="{{path('fos_user_security_login')}}" class="btn btn-default">Your Answer</a>
                 </div>
             </div>
         {% else %}
@@ -130,6 +130,9 @@
                         {{form_widget(answer_form._token)}}
                     </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-4">&nbsp;</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">

@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use \Exception;
 
 class QuestionController extends Controller
 {
@@ -71,7 +72,6 @@ class QuestionController extends Controller
     }
     
     /**
-     * @Route("/question/{question}/engage", name="question_engage")
      * @Route("/question/{question}/view", name="question_view")
      * @ParamConverter("question", options={"mapping": {"question": "id"}})
      */
@@ -88,7 +88,7 @@ class QuestionController extends Controller
         if($answerForm->isSubmitted() && $answerForm->isValid()) {
             $answerText = $answerForm->getData()['answer'];
             $this->processAnswerResponse($question, $answerText);
-            return $this->redirect($this->generateUrl('question_engage', 
+            return $this->redirect($this->generateUrl('question_view', 
                     array('question'=>$question->getId())));
         }
         return $this->render("AppBundle:Question:view.html.twig", 
@@ -122,7 +122,7 @@ class QuestionController extends Controller
     {
         $commentForm = $this->createForm(CommentType::class);
         $commentForm->handleRequest($request);
-        if($commentForm->isValid()) {
+        if($commentForm->isSubmitted() && $commentForm->isValid()) {
             $comment = new QuestionComment;
             $comment->setQuestion($question)
                     ->setBody($commentForm->getData()['comment'])
@@ -130,9 +130,10 @@ class QuestionController extends Controller
             $commentRepository = $this->get('qasite.comment_repository');
             $commentRepository->persist($comment);
             $commentRepository->flush();
-            return $this->redirect($this->generateUrl('question_engage', 
+            return $this->redirect($this->generateUrl('question_view', 
                     array('question'=>$question->getId())));
         }
+        
     }
     
     /**

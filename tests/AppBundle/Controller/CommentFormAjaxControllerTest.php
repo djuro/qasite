@@ -10,14 +10,15 @@ class CommentFormAjaxControllerTest extends WebTestCase
 {
     private $client;
     
-    private $questionRepository;
+    private $answerRepository;
     
     public function setUp()
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->questionRepository = static::$kernel->getContainer()->get('qasite.question_repository');
+        //$this->questionRepository = static::$kernel->getContainer()->get('qasite.question_repository');
         $this->client = static::createClient();
+        $this->answerRepository = static::$kernel->getContainer()->get('qasite.answer_repository');
     }
     
     public function testRenderQuestionCommentFormAction()
@@ -85,8 +86,9 @@ class CommentFormAjaxControllerTest extends WebTestCase
      */
     private function findQuestion() {
         
-        $questions = $this->questionRepository->findAll();
+        $answers = $this->answerRepository->findAll();
         
-        return $questions[0];
+        $answer = $answers[0];
+        return $answer->getQuestion();
     }
 }

@@ -2,3 +2,13 @@
     font-weight: bold;
 }
 
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+footer .col-md-12 {
+    background-color: #C9C9C9;
+}
+

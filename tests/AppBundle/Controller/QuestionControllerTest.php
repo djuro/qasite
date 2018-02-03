@@ -8,11 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\BrowserKit\Cookie;
 
+
 class QuestionControllerTest extends WebTestCase
 {
     const TITLE = "Some test question title ...";
     
     const BODY = "Some test body text ...";
+    
+    const COMMENTMOJ = "Evo jednog lipog komentara";
     
     const ANSW_BODY = "This is some very smart answer text ...";
     
@@ -24,11 +27,14 @@ class QuestionControllerTest extends WebTestCase
      */
     private $client;
     
+    
+    
     /**
      *
-     * @var AppBundle\Service\Repository\QuestionRepository
+     * @var AnswerRepository 
      */
-    private $questionRepository;
+    private $answerRepository;
+    
     
     
     public function setUp()
@@ -37,7 +43,7 @@ class QuestionControllerTest extends WebTestCase
         static::$kernel->boot();
         
         $this->client = static::createClient();
-        $this->questionRepository = static::$kernel->getContainer()->get('qasite.question_repository');
+        $this->answerRepository = static::$kernel->getContainer()->get('qasite.answer_repository');
     }
     
     public function testNewAction() {
@@ -45,7 +51,6 @@ class QuestionControllerTest extends WebTestCase
         $this->client->followRedirects(true);
         $crawler = $this->client->request('GET', 'question/new');
         
-        //d($this->client->getResponse()->getContent());
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Ask Question")')->count()
@@ -97,28 +102,28 @@ class QuestionControllerTest extends WebTestCase
     
     public function testQuestionViewAction()
     {
+        $this->client->restart();
+        $this->logIn();
         $question = $this->findQuestion();
+        
         $this->client->followRedirects(true);
         $route = sprintf("question/%s/view", $question->getId());
         
         $crawler = $this->client->request('GET', $route);
         $htmlQuery = sprintf('html:contains("%s")', $question->getTitle());
+        
+        //d($this->client->getResponse()->getContent());
+        $this->assertEquals(1,
+                $crawler->filter('html:contains("Post your answer")')->count());
         $this->assertGreaterThan(0,
                 $crawler->filter($htmlQuery)->count());
-        $this->assertEquals(0,
-                $crawler->filter('html:contains("Post your answer")')->count());
         
-        // test by another URL
-        $this->logIn();
-        $authenticatedCrawler = $this->client->request('GET', '/question/'.$question->getId().'/engage');
-        $this->assertGreaterThan(0,
-                $authenticatedCrawler->filter('html:contains("Post your answer")')->count());
-        
-        $form = $authenticatedCrawler->selectButton('Post your answer')->form();
+        $form = $crawler->selectButton('Post your answer')->form();
         $form['answer[answer]'] = self::ANSW_BODY;
         $formSubmitCrawler = $this->client->submit($form);
-        $this->assertGreaterThan(0,
-                $formSubmitCrawler->filter('html:contains("'.self::ANSW_BODY.'")')->count());
+        
+        $this->assertEquals(1,
+                $formSubmitCrawler->filter('html:contains("Post your answer")')->count());
     }
     
     public function testHomeAction()
@@ -150,9 +155,10 @@ class QuestionControllerTest extends WebTestCase
      */
     private function findQuestion() {
         
-        $questions = $this->questionRepository->findAll();
+        $answers = $this->answerRepository->findAll();
         
-        return $questions[0];
+        $answer = $answers[0];
+        return $answer->getQuestion();
     }
 
 }

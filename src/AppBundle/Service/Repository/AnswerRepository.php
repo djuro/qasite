@@ -34,4 +34,13 @@ class AnswerRepository
    {
        $this->em->flush();
    }
+   
+   public function findAll()
+   {
+       $qb = $this->em->createQueryBuilder()
+               ->select('A')
+               ->from('AppBundle:Answer', 'A');
+       $query = $qb->getQuery();
+       return $query->getResult();
+   }
 }

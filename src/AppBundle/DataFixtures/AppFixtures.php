@@ -4,13 +4,14 @@ namespace AppBundle\DataFixtures;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Question;
+use AppBundle\Entity\Answer;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-    const BODY = "Some arbitrary text as answer body ...";
+    const BODY = "Some arbitrary text as question/answer body ...";
     
     const TITLE = "Some title text";
     
@@ -45,9 +46,11 @@ class AppFixtures extends Fixture
 //            $manager->persist($product);
 //        }
         $question = $this->createQuestion();
+        $answer = $this->createAnswer($question, $user);
         $question->setAuthor($user);
         $manager->persist($user);
         $manager->persist($question);
+        $manager->persist($answer);
         $manager->flush();
     }
     
@@ -60,5 +63,18 @@ class AppFixtures extends Fixture
         $question->setTitle(self::TITLE)
                 ->setBody(self::BODY);
         return $question;
+    }
+    
+    /**
+     * 
+     * @param Question $question
+     * @param User $user
+     * @return Answer
+     */
+    private function createAnswer(Question $question, User $user)
+    {
+        $answer = new Answer($question, $user);
+        $answer->setBody(self::BODY);
+        return $answer;
     }
 }

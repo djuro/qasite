@@ -6,10 +6,13 @@ use AppBundle\Entity\Comment;
 
 use Ramsey\Uuid\Uuid;
 use PHPUnit\Framework\TestCase;
+use AppBundle\Entity\User;
 
 class CommentTest extends TestCase
 {
     const BODY = "Some text ...";
+    
+    const USRNM = "someusername";
     
     /**
      *
@@ -41,5 +44,14 @@ class CommentTest extends TestCase
     {
         $this->comment->setBody(self::BODY);
         $this->assertEquals($this->comment->getBody(), self::BODY);
+    }
+    
+    public function testSetGetAuthor()
+    {
+        $author = new User();
+        $author->setUsername(self::USRNM);
+        $this->comment->setAuthor($author);
+        
+        $this->assertTrue($author === $this->comment->getAuthor());
     }
 }
