@@ -47,21 +47,6 @@ class AuthorView
         return $this->surname;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function setSurname($surname) {
-        $this->surname = $surname;
-        return $this;
-    }
-
     /**
      * 
      * @return string
