@@ -153,7 +153,7 @@ class QuestionController extends Controller
             $commentRepository = $this->get('qasite.comment_repository');
             $commentRepository->persist($comment);
             $commentRepository->flush();
-            return $this->redirect($this->generateUrl('question_engage', 
+            return $this->redirect($this->generateUrl('question_view', 
                     array('question'=>$question->getId())));
         }
     }
