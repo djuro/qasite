@@ -109,11 +109,6 @@ class QuestionView
         return $this->answers->toArray();
     }
 
-    public function setAnswers(array $answers) {
-        $this->answers = $answers;
-        return $this;
-    }
-
     public function addAnswer(AnswerView $answer) {
         $this->answers->add($answer);
     }
@@ -136,11 +131,6 @@ class QuestionView
         return $this;
     }
 
-    public function setComments(array $comments) {
-        $this->comments = $comments;
-        return $this;
-    }
-
     public function getCreatedAt() {
         return $this->createdAt;
     }
@@ -154,6 +144,11 @@ class QuestionView
         return $this->answersCount;
     }
 
+    /**
+     * 
+     * @param int $answersCount
+     * @return $this
+     */
     public function setAnswersCount($answersCount) {
         $this->answersCount = $answersCount;
         return $this;
