@@ -11,6 +11,7 @@ use AppBundle\Entity\Answer;
 use AppBundle\Form\Model\Question as FormQuestion;
 use AppBundle\Entity\QuestionComment;
 use AppBundle\Entity\AnswerComment;
+use AppBundle\Form\Model\Answer as FormAnswer;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -86,8 +87,8 @@ class QuestionController extends Controller
         $answerForm->handleRequest($request);
         
         if($answerForm->isSubmitted() && $answerForm->isValid()) {
-            $answerText = $answerForm->getData()['answer'];
-            $this->processAnswerResponse($question, $answerText);
+            $formAnswer = $answerForm->getData();
+            $this->processAnswerResponse($question, $formAnswer);
             return $this->redirect($this->generateUrl('question_view', 
                     array('question'=>$question->getId())));
         }
@@ -104,12 +105,12 @@ class QuestionController extends Controller
     /**
      * 
      * @param Question $question
-     * @param string $answerText
+     * @param FormAnswer $formAnswer
      */
-    private function processAnswerResponse(Question $question, $answerText) {
+    private function processAnswerResponse(Question $question, FormAnswer $formAnswer) {
         $answerRepository = $this->get('qasite.answer_repository');
         $answer = new Answer($question, $this->getUser());
-        $answer->setBody($answerText);
+        $answer->setBody($formAnswer->getBody());
         $answerRepository->persist($answer);
         $answerRepository->flush();
     }

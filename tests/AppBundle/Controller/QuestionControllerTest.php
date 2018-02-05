@@ -119,7 +119,7 @@ class QuestionControllerTest extends WebTestCase
                 $crawler->filter($htmlQuery)->count());
         
         $form = $crawler->selectButton('Post your answer')->form();
-        $form['answer[answer]'] = self::ANSW_BODY;
+        $form['answer[body]'] = self::ANSW_BODY;
         $formSubmitCrawler = $this->client->submit($form);
         
         $this->assertEquals(1,
