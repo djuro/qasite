@@ -18,6 +18,10 @@ class QuestionTest extends TestCase
     
     const BODY = "Some arbitrary question text ...";
     
+    const NAME = "Jimmy";
+    
+    const SURNAME = "McGill";
+    
     /**
      *
      * @var Question
@@ -128,4 +132,16 @@ class QuestionTest extends TestCase
         $this->question->downVote();
         $this->assertTrue($score - $this->question->getScore() == 1);
     }
+    
+    public function testGetAuthorLabel()
+    {
+        $author = new User();
+        $author->setName(self::NAME)
+                ->setSurname(self::SURNAME);
+        $this->question->setAuthor($author);
+        
+        $authorLabel = sprintf("%s %s", self::NAME, self::SURNAME);
+        $this->assertEquals($this->question->getAuthorLabel(), $authorLabel);
+    }
+    
 }

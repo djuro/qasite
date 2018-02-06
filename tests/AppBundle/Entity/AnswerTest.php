@@ -18,6 +18,10 @@ class AnswerTest extends TestCase
     
     const TITLE = "Some title text";
     
+    const NAME = "Jessie";
+    
+    const SURNAME = "Pinkman";
+    
     /**
      *
      * @var Answer
@@ -86,6 +90,12 @@ class AnswerTest extends TestCase
         );
     }
     
+    public function testGetAuthorLabel()
+    {
+        $authorLabel = sprintf("%s %s", self::NAME, self::SURNAME);
+        $this->assertEquals($this->answer->getAuthorLabel(), $authorLabel);
+    }
+    
     /**
      * 
      * @return Question
@@ -97,6 +107,7 @@ class AnswerTest extends TestCase
         return $question;
     }
     
+    
     /**
      * 
      * @return User
@@ -106,6 +117,9 @@ class AnswerTest extends TestCase
                                 ->disableOriginalConstructor()
                                 ->setMethods(null)
                                 ->getMock();
+        $userMock->setName(self::NAME)
+                ->setSurname(self::SURNAME);
+        
         return $userMock;
     }
 }
