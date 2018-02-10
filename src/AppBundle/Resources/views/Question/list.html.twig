@@ -6,7 +6,16 @@
         <div class="page-header">
             <h4>Questions</h4>
         </div>
-        
+        <div class="row">
+            <div class="col-md-11">&nbsp;</div>
+            <div class="col-md-1">
+                {% if links_active == false %}
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">Ask Question</a>
+                {% elseif links_active == true %}
+                    <a href="{{ path('question_new') }}" class="btn btn-primary">Ask Question</a>
+                {% endif %}
+            </div>
+        </div>
         {% for question in questions %}
             <div class="row">
                 <div class="col-md-12">
@@ -33,8 +42,8 @@
                     {{ question.body }}
                 </div>
             </div>
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
         {% endfor %}
     </div>
-    </section>
-            </div>
+            
 {% endblock main %}

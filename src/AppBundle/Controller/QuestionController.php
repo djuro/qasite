@@ -18,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-use \Exception;
 
 class QuestionController extends Controller
 {
@@ -80,7 +79,7 @@ class QuestionController extends Controller
     {
         $questionViewFactory = $this->get('qasite.question_view_factory');
         $questionView = $questionViewFactory->createFromQuestion($question);
-        
+        $user = $this->getUser();
         $answerForm = $this->createForm(AnswerType::class);
         $commentForm = $this->createForm(CommentType::class);
         $answerCommentForm = $this->createForm(CommentType::class);
@@ -99,6 +98,7 @@ class QuestionController extends Controller
                     'comment_form' => $commentForm->createView(),
                     'answer_comment_form' => $answerCommentForm->createView(),
                     'authenticated' => $this->resolvePermission(),
+                    'user_id' => ($user instanceof User)?$user->getId():null
                 ));
     }
     
@@ -131,10 +131,9 @@ class QuestionController extends Controller
             $commentRepository = $this->get('qasite.comment_repository');
             $commentRepository->persist($comment);
             $commentRepository->flush();
-            return $this->redirect($this->generateUrl('question_view', 
-                    array('question'=>$question->getId())));
         }
-        
+        return $this->redirect($this->generateUrl('question_view', 
+                    array('question'=>$question->getId())));
     }
     
     /**
@@ -165,8 +164,6 @@ class QuestionController extends Controller
      */
     public function editAction(Request $request, Question $question)
     {
-        //Kint::trace(); // Debug backtrace
-         //d($request); exit;
         $questionService = $this->get('qasite.question_service');
         $formQuestion = new FormQuestion;
         $questionService->transformDomainQuestion($question, $formQuestion);

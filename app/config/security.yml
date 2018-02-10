@@ -31,6 +31,6 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/question/[0-9a-zA-Z/-]+/view, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/question/[0-9a-zA-Z/-]+/engage, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/question/, role: ROLE_ADMIN }
-        - { path: ^/upvote[0-9a-zA-Z/-]+, roles: [ ROLE_ADMIN ] }
-        - { path: ^/downvote[0-9a-zA-Z/-]+, roles: [ ROLE_ADMIN ] }
+        - { path: ^/question/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/upvote[0-9a-zA-Z/-]+, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/downvote[0-9a-zA-Z/-]+, roles: [ IS_AUTHENTICATED_FULLY ] }
