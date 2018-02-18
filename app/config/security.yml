@@ -4,11 +4,11 @@ security:
 
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
-        
+
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-        
+
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         fos_userbundle:
@@ -19,6 +19,11 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
+                #always_use_default_target_path: false
+                #default_target_path:            /
+                target_path_parameter:          _target_path
+                use_referer: true
+                failure_path: /
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
 
